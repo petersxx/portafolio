@@ -471,21 +471,7 @@ a { color: inherit; text-decoration: none; }
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow), 0 0 30px rgba(111, 155, 255, 0.25); }
-.project-thumb {
-  height: 160px;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(160, 180, 220, 0.25);
-}
-.project-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  display: block;
-  transition: transform 0.4s;
-}
-.project-card:hover .project-thumb img { transform: scale(1.06); }
-.project-body { padding: 22px; }
+.project-body { padding: 28px; }
 .project-body h3 { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
 .project-body p { color: var(--text-muted); margin-bottom: 14px; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
