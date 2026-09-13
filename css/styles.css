@@ -38,6 +38,13 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .container {
   width: 100%;
   max-width: 1120px;
