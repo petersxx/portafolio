@@ -557,7 +557,7 @@ a { color: inherit; text-decoration: none; }
 /* Responsive */
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); min-height: auto; padding-top: 40px; }
-  .hero-visual { order: -1; max-width: 300px; }
+  .hero-visual { max-width: 300px; margin-inline: auto; }
   .about-grid { grid-template-columns: minmax(0, 1fr); padding: 26px; }
   .veil { background: var(--veil-strong); }
 }
