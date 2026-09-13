@@ -102,7 +102,11 @@ document.getElementById("contactForm").addEventListener("submit", (e) => {
   const text = encodeURIComponent(
     `Hola, soy ${data.get("name")} (${data.get("email")}).\n\n${data.get("message")}`
   );
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener");
+  const link = document.createElement("a");
+  link.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.click();
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
