@@ -8,6 +8,7 @@ Sitio web personal para mostrar mis trabajos de desarrollo de páginas web y cre
 - CSS3 (variables, grid, modo claro/oscuro)
 - JavaScript vanilla (sin dependencias ni build)
 - WebGL para el fondo de cromo líquido animado
+- three.js (desde CDN) para el disco 3D que gira con el scroll
 
 ## Estructura
 
@@ -16,12 +17,14 @@ portafolio/
 ├── index.html      # Página principal
 ├── css/styles.css  # Estilos
 ├── js/main.js      # Interactividad (menú, tema, animaciones, formulario)
-└── js/chrome.js    # Shader WebGL del fondo de cromo líquido
+├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
+├── js/disc.js      # Disco 3D (three.js): foco de luz y rotación con scroll
+└── assets/models/disco.glb  # Modelo del disco, optimizado (meshopt + WebP)
 ```
 
 ## Ver en local
 
-Abrí `index.html` en el navegador, o levantá un servidor simple:
+Levantá un servidor simple (el disco 3D no carga si abrís `index.html` directo como archivo):
 
 ```bash
 python3 -m http.server 8000

@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 <body>
   <svg class="sprite" aria-hidden="true" focusable="false">
@@ -85,7 +93,9 @@
             <path d="M0-44C3-10 10-3 44 0 10 3 3 10 0 44-3 10-10 3-44 0-10-3-3-10 0-44Z" fill="url(#g-silver)" opacity=".85" transform="rotate(45)"/>
           </g>
           <path d="M0-58C5-14 14-5 58 0 14 5 5 14 0 58-5 14-14 5-58 0-14-5-5-14 0-58Z" fill="url(#g-chrome)"/>
-          <path d="M0-58C5-14 14-5 58 0" fill="none" stroke="#fff" stroke-width=".8" opacity=".9"/>        </svg>
+          <path d="M0-58C5-14 14-5 58 0" fill="none" stroke="#fff" stroke-width=".8" opacity=".9"/>
+        </svg>
+        <canvas id="disc" class="disc-canvas"></canvas>
         <svg class="spark" style="--x:6%;--y:12%;--s:46px;--d:0s" viewBox="-50 -50 100 100"><use href="#star"/></svg>
         <svg class="spark" style="--x:82%;--y:6%;--s:28px;--d:.6s" viewBox="-50 -50 100 100"><use href="#star"/></svg>
         <svg class="spark" style="--x:90%;--y:70%;--s:52px;--d:1.2s" viewBox="-50 -50 100 100"><use href="#star"/></svg>
@@ -235,5 +245,6 @@
 
   <script src="js/main.js"></script>
   <script src="js/chrome.js"></script>
+  <script type="module" src="js/disc.js"></script>
 </body>
 </html>
