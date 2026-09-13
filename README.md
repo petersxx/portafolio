@@ -35,7 +35,7 @@ y entrá a http://localhost:8000
 ## Personalizar
 
 - **Proyectos:** editá las tarjetas en la sección `#proyectos` de `index.html`.
-- **Email de contacto:** cambiá `CONTACT_EMAIL` al inicio de `js/main.js`.
+- **Número de WhatsApp:** cambiá `WHATSAPP_NUMBER` al inicio de `js/main.js` (con código de país, sin `+` ni espacios).
 - **Estadísticas:** ajustá los números en `STATS` dentro de `js/main.js`.
 - **Colores:** modificá las variables CSS en `:root` de `css/styles.css`.
 

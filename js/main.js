@@ -1,5 +1,5 @@
 // Cambiá este email por el que quieras que reciba los mensajes del formulario.
-const CONTACT_EMAIL = "tu-email@ejemplo.com";
+const WHATSAPP_NUMBER = "595991230966";
 
 const STATS = { statProjects: 15, statYears: 3, statTech: 12 };
 
@@ -99,9 +99,10 @@ sections.forEach((s) => activeObserver.observe(s));
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(e.target);
-  const subject = encodeURIComponent(`Consulta de ${data.get("name")}`);
-  const body = encodeURIComponent(`${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})`);
-  window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  const text = encodeURIComponent(
+    `Hola, soy ${data.get("name")} (${data.get("email")}).\n\n${data.get("message")}`
+  );
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener");
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
