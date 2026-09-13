@@ -10,7 +10,7 @@ const navLinks = document.getElementById("navLinks");
 
 function applyTheme(theme) {
   root.setAttribute("data-theme", theme);
-  themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
+  themeToggle.setAttribute("aria-label", theme === "dark" ? "Cambiar a ice chrome" : "Cambiar a black chrome");
 }
 
 function getStoredTheme() {
@@ -21,8 +21,7 @@ function getStoredTheme() {
   }
 }
 
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-applyTheme(getStoredTheme() || (prefersDark ? "dark" : "light"));
+applyTheme(getStoredTheme() || "dark");
 
 themeToggle.addEventListener("click", () => {
   const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";

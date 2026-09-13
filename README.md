@@ -7,6 +7,7 @@ Sitio web personal para mostrar mis trabajos de desarrollo de páginas web y cre
 - HTML5 semántico
 - CSS3 (variables, grid, modo claro/oscuro)
 - JavaScript vanilla (sin dependencias ni build)
+- WebGL para el fondo de cromo líquido animado
 
 ## Estructura
 
@@ -14,7 +15,8 @@ Sitio web personal para mostrar mis trabajos de desarrollo de páginas web y cre
 portafolio/
 ├── index.html      # Página principal
 ├── css/styles.css  # Estilos
-└── js/main.js      # Interactividad (menú, tema, animaciones, formulario)
+├── js/main.js      # Interactividad (menú, tema, animaciones, formulario)
+└── js/chrome.js    # Shader WebGL del fondo de cromo líquido
 ```
 
 ## Ver en local
