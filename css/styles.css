@@ -466,33 +466,25 @@ a { color: inherit; text-decoration: none; }
   gap: 24px;
 }
 .project-card {
+  display: block;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow), 0 0 30px rgba(111, 155, 255, 0.25); }
 .project-thumb {
   height: 160px;
-  display: grid;
-  place-items: center;
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.55), transparent 45%),
-    radial-gradient(ellipse at 75% 80%, rgba(111, 155, 255, 0.55), transparent 50%),
-    linear-gradient(160deg, #0b1020 0%, #3a4a6e 40%, #c8d4ea 52%, #1a2540 64%, #0b1020 100%);
+  overflow: hidden;
   border-bottom: 1px solid rgba(160, 180, 220, 0.25);
 }
-[data-theme="light"] .project-thumb {
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.9), transparent 45%),
-    radial-gradient(ellipse at 75% 80%, rgba(31, 79, 209, 0.5), transparent 50%),
-    linear-gradient(160deg, #dbe7ff 0%, #6f9bff 40%, #ffffff 52%, #1f4fd1 64%, #cfe0ff 100%);
-}
-.project-thumb span {
-  font-family: var(--font-head);
-  font-weight: 900;
-  font-size: 4rem;
+.project-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
   transition: transform 0.4s;
 }
-.project-card:hover .project-thumb span { transform: scale(1.1) rotate(-4deg); }
+.project-card:hover .project-thumb img { transform: scale(1.06); }
 .project-body { padding: 22px; }
 .project-body h3 { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
 .project-body p { color: var(--text-muted); margin-bottom: 14px; }
