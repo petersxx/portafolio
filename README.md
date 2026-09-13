@@ -1,6 +1,6 @@
-# Portafolio — petersxx
+# Main Technologies
 
-Sitio web personal para mostrar mis trabajos de desarrollo de páginas web y creación de software.
+Sitio web de Main Technologies, empresa de desarrollo de software: servicios, proyectos y contacto.
 
 ## Tecnologías
 
