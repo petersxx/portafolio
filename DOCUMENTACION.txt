@@ -1,0 +1,208 @@
+================================================================
+ MAIN TECHNOLOGIES — DOCUMENTACIÓN DEL PROYECTO
+ Última actualización: 2026-09-15
+================================================================
+
+1. CONCEPTO DE LA PÁGINA
+----------------------------------------------------------------
+Sitio web de "Main Technologies", una empresa (ficticia/personal)
+de desarrollo de software. Funciona como landing page / portafolio
+corporativo de una sola página (one-pager) con las siguientes
+secciones, en este orden:
+
+  - Inicio (hero): título, bajada, botones "Ver proyectos" y
+    "Hablemos", y una pieza visual 3D (disco giratorio) + estrella
+    decorativa.
+  - Marquee: cinta animada con palabras clave de los servicios
+    (Diseño web, Software a medida, E-commerce, etc.).
+  - Nosotros: texto de presentación + estadísticas animadas
+    (proyectos, años, tecnologías).
+  - Servicios: carrusel con 6 tarjetas (Desarrollo web, Software a
+    medida, E-commerce, Aplicaciones web, Diseño UI/UX,
+    Automatización e integraciones) + listado de stack tecnológico.
+    El carrusel muestra 3 tarjetas en escritorio, 2 en tablet y 1
+    (con un pedazo de la siguiente) en celular. Es infinito: después
+    del último servicio sigue el primero sin rebobinar, en ambas
+    direcciones. Tiene flechas, 6 puntos indicadores (uno por
+    servicio), deslizamiento táctil / trackpad / teclado, y avance
+    automático cada 5 s que se pausa con el mouse encima y se
+    detiene cuando el usuario lo usa manualmente.
+  - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
+    Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
+    real del cliente.
+  - Contacto: formulario (nombre, email, mensaje) que NO envía
+    email — arma un mensaje y abre WhatsApp Web/App con el texto
+    precargado.
+  - Footer: copyright dinámico (año actual) y link a GitHub.
+
+Estética "chromecore": fondo animado tipo cromo líquido (WebGL),
+tipografía Unbounded/Space Grotesk/Space Mono, modo claro/oscuro
+("ice chrome" / "black chrome") con toggle persistido en
+localStorage, y estrellas/destellos decorativos en SVG.
+
+2. STACK TÉCNICO
+----------------------------------------------------------------
+  - HTML5 semántico, un solo archivo: index.html
+  - CSS3 puro con variables, grid y tema claro/oscuro: css/styles.css
+  - JavaScript vanilla, SIN framework ni build (no hay
+    package.json ni bundler):
+      · js/main.js   → menú, tema, contador de stats, scroll-reveal,
+                        nav activo, envío del form a WhatsApp,
+                        carrusel de servicios
+      · js/chrome.js → shader WebGL del fondo animado
+      · js/disc.js   → disco 3D con three.js (vía CDN/importmap),
+                        con foco de luz y rotación ligada al scroll
+  - Modelo 3D: assets/models/disco.glb (optimizado con meshopt +
+    texturas WebP)
+  - three.js se carga por import map directo desde jsdelivr CDN
+    (no está en node_modules)
+  - Despliegue: Vercel (hay proyecto vinculado, ver .vercel/) y
+    también preparado para GitHub Pages (branch main / root)
+
+No hay backend, base de datos ni build step: es un sitio 100%
+estático que puede abrirse con cualquier servidor simple. Se
+recomienda `python3 -m http.server 8000` porque el disco 3D no
+carga si se abre index.html como archivo local (file://) por
+restricciones de módulos ES / fetch del .glb.
+
+3. PROGRESO / HISTORIAL (según commits en git)
+----------------------------------------------------------------
+  1. Add initial portfolio site — primera versión del portafolio
+  2. Add animated particle background — fondo de partículas animado
+  3. Redesign portfolio with chromecore aesthetic — rediseño con
+     la estética actual de cromo
+  4. Replace hero star with scroll-driven 3D disc — se reemplazó
+     la estrella del hero por el disco 3D con three.js
+  5. Rebrand site as Main Technologies, a software company — el
+     sitio pasó de portafolio personal a sitio de empresa
+  6. Add real client projects and tweak hero headline — se
+     agregaron los 3 proyectos reales de clientes
+  7. Simplify project cards to title and description only —
+     tarjetas de proyecto simplificadas
+  8. Move mobile disc below the hero title — ajuste responsive del
+     disco 3D en mobile
+  9. Send contact form to WhatsApp instead of email — el
+     formulario dejó de simular envío de email y pasa a abrir
+     WhatsApp con el mensaje
+  10. Fix WhatsApp contact link not opening — corrección de bug en
+      el link de WhatsApp
+  11. Ignore Vercel local project files — se agregó .vercel al
+      .gitignore
+  12. (2026-09-15, sin commit todavía) La sección Servicios pasó
+      de grilla a carrusel
+  13. (2026-09-15, sin commit todavía) El carrusel de Servicios
+      pasó a ser infinito
+
+Estado actual: sitio funcional y desplegable, con identidad de
+marca definida (Main Technologies), 3 proyectos reales cargados,
+formulario de contacto operativo vía WhatsApp, tema claro/oscuro y
+animaciones (partículas, disco 3D, reveal on scroll) funcionando.
+
+4. LO QUE FALTA / PENDIENTE
+----------------------------------------------------------------
+Cosas identificadas revisando el código que probablemente valga
+la pena resolver o decidir:
+
+  - Datos de ejemplo/placeholder en "Nosotros": las estadísticas
+    (15 proyectos, 3 años, 12 tecnologías) están hardcodeadas en
+    js/main.js (STATS) — confirmar que sean los números reales.
+  - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
+    clientes, faltaría cargarlos.
+  - El comentario en js/main.js ("Cambiá este email...") quedó
+    desactualizado: ya no se envía por email, se envía por
+    WhatsApp — conviene limpiar el comentario.
+  - No hay meta tags de Open Graph / Twitter Card (og:image,
+    og:title, etc.) para que se vea bien al compartir el link en
+    redes o WhatsApp.
+  - No hay favicon como archivo real: se usa un SVG inline como
+    data URI. Podría convenir un favicon.ico/png tradicional para
+    mejor compatibilidad.
+  - No hay analítica (Google Analytics, Plausible, Vercel
+    Analytics, etc.) para medir visitas.
+  - No hay política de privacidad ni aviso legal, algo esperable
+    en un sitio de empresa con formulario de contacto.
+  - El formulario de contacto no valida ni guarda nada del lado
+    servidor: si el usuario no tiene WhatsApp o falla el popup,
+    no hay fallback (ej. mailto: o servicio de email tipo
+    Formspree).
+  - No se ve dominio propio configurado todavía (aparece
+    desplegado en Vercel con nombre de proyecto "portafolio"); si
+    la marca es "Main Technologies", podría convenir un dominio
+    acorde.
+  - No hay tests, ni linter, ni CI configurado (razonable para un
+    sitio estático de este tamaño, pero queda anotado).
+  - README.md sigue mencionando GitHub Pages como opción de
+    publicación, pero el despliegue real actual parece ser Vercel
+    (existe .vercel/project.json) — podría actualizarse el README
+    para reflejar el método de deploy vigente.
+  - El logo/marca es solo texto ("Main Technologies") con efecto
+    "chrome-text"; no hay isotipo/logo gráfico propio más allá de
+    la estrella genérica.
+
+5. CÓMO CORRER EL PROYECTO EN LOCAL
+----------------------------------------------------------------
+  cd portafolio
+  python3 -m http.server 8000
+
+  Luego abrir http://localhost:8000 en el navegador.
+
+6. CÓMO PERSONALIZAR (según README.md)
+----------------------------------------------------------------
+  - Proyectos: editar las tarjetas dentro de la sección
+    #proyectos en index.html.
+  - Número de WhatsApp: cambiar WHATSAPP_NUMBER al inicio de
+    js/main.js (con código de país, sin "+" ni espacios).
+  - Estadísticas: ajustar los números en STATS dentro de
+    js/main.js.
+  - Colores: modificar las variables CSS en :root de
+    css/styles.css.
+
+7. REGISTRO DE CAMBIOS
+----------------------------------------------------------------
+Cada cambio al proyecto se anota acá (el más reciente arriba),
+con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-15] Carrusel de Servicios infinito
+    - El carrusel ya no tiene principio ni fin: después de la
+      última tarjeta viene la primera (y al revés), sin rebobinar.
+    - Técnica: se agrega por JavaScript una copia de las 6
+      tarjetas antes y otra después de las originales (ocultas
+      para lectores de pantalla y no enfocables). Cuando el
+      desplazamiento se detiene sobre una copia, se salta de forma
+      instantánea e invisible a la tarjeta original equivalente.
+    - Las flechas ya no se deshabilitan en los extremos.
+    - Puntos indicadores: ahora siempre son 6 (uno por servicio),
+      en cualquier tamaño de pantalla.
+    - El avance automático sigue siempre hacia adelante en vez de
+      volver al inicio.
+    - Archivos: js/main.js, css/styles.css, DOCUMENTACION.txt
+
+  [2026-09-15] Servicios convertido en carrusel
+    - La grilla de 6 tarjetas de "Servicios" ahora es un carrusel
+      horizontal con scroll-snap (deslizable con dedo, trackpad o
+      flechas del teclado).
+    - Controles: botones anterior/siguiente (se deshabilitan en los
+      extremos) y puntos indicadores de página, que se recalculan
+      según cuántas tarjetas entran en pantalla.
+    - Tarjetas visibles: 3 en escritorio, 2 a partir de 860px, y
+      85% del ancho a partir de 560px (se asoma la siguiente).
+    - Avance automático cada 5 s, en bucle. Se pausa con el mouse
+      encima o con foco dentro, se detiene definitivamente cuando
+      el usuario lo usa, y no corre si el sistema tiene activado
+      "reducir movimiento".
+    - Las sombras de las tarjetas se desvanecen suavemente en los
+      costados del carrusel (máscara sobre el margen del
+      contenedor) en vez de cortarse en línea recta.
+    - Se eliminó la clase .skills-grid, que ya no se usa.
+    - Archivos: index.html, css/styles.css, js/main.js, README.md,
+      DOCUMENTACION.txt
+
+  [2026-09-15] Creación de la documentación
+    - Se creó DOCUMENTACION.txt con el concepto del sitio, stack,
+      historial de progreso, pendientes y guía de personalización.
+    - Se agregó esta sección de registro de cambios.
+    - Archivos: DOCUMENTACION.txt (nuevo)
+
+================================================================
+ Fin del documento
+================================================================

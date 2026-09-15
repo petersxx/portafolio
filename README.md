@@ -16,7 +16,7 @@ Sitio web de Main Technologies, empresa de desarrollo de software: servicios, pr
 portafolio/
 ├── index.html      # Página principal
 ├── css/styles.css  # Estilos
-├── js/main.js      # Interactividad (menú, tema, animaciones, formulario)
+├── js/main.js      # Interactividad (menú, tema, animaciones, carrusel, formulario)
 ├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
 ├── js/disc.js      # Disco 3D (three.js): foco de luz y rotación con scroll
 └── assets/models/disco.glb  # Modelo del disco, optimizado (meshopt + WebP)

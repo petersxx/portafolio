@@ -139,7 +139,8 @@
 
     <section id="servicios" class="section container">
       <h2 class="section-title chrome-text reveal">Servicios</h2>
-      <div class="skills-grid reveal">
+      <div class="carousel reveal" role="region" aria-roledescription="carrusel" aria-label="Servicios">
+        <div class="carousel-track" id="carouselTrack" tabindex="0">
         <div class="skill-card glass">
           <svg class="skill-star" viewBox="-50 -50 100 100" aria-hidden="true"><use href="#star"/></svg>
           <h3>Desarrollo web</h3>
@@ -169,6 +170,16 @@
           <svg class="skill-star" viewBox="-50 -50 100 100" aria-hidden="true"><use href="#star"/></svg>
           <h3>Automatización e integraciones</h3>
           <p>APIs, bots y procesos automáticos que le ahorran horas a tu equipo.</p>
+        </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-btn chrome-edge" id="carouselPrev" aria-controls="carouselTrack" aria-label="Servicio anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="carousel-dots" id="carouselDots"></div>
+          <button type="button" class="carousel-btn chrome-edge" id="carouselNext" aria-controls="carouselTrack" aria-label="Servicio siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
         </div>
       </div>
       <p class="stack-label reveal">Tecnologías que usamos</p>
