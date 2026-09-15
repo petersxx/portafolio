@@ -20,13 +20,14 @@ secciones, en este orden:
   - Servicios: carrusel con 6 tarjetas (Desarrollo web, Software a
     medida, E-commerce, Aplicaciones web, Diseño UI/UX,
     Automatización e integraciones) + listado de stack tecnológico.
-    El carrusel muestra 3 tarjetas en escritorio, 2 en tablet y 1
-    (con un pedazo de la siguiente) en celular. Es infinito: después
-    del último servicio sigue el primero sin rebobinar, en ambas
-    direcciones. Tiene flechas, 6 puntos indicadores (uno por
-    servicio), deslizamiento táctil / trackpad / teclado, y avance
-    automático cada 5 s que se pausa con el mouse encima y se
-    detiene cuando el usuario lo usa manualmente.
+    Es una cinta continua (igual en técnica al marquee de palabras
+    clave del hero): se desliza sola todo el tiempo, sin flechas,
+    sin puntos y sin paradas entre tarjeta y tarjeta. El bucle es
+    perfecto porque en realidad hay dos copias idénticas de las 6
+    tarjetas una detrás de la otra, y la animación solo recorre el
+    ancho de una copia antes de reiniciarse. Se pausa al pasar el
+    mouse por encima o al enfocar una tarjeta con el teclado, y no
+    se anima si el sistema tiene activado "reducir movimiento".
   - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
@@ -47,8 +48,9 @@ localStorage, y estrellas/destellos decorativos en SVG.
   - JavaScript vanilla, SIN framework ni build (no hay
     package.json ni bundler):
       · js/main.js   → menú, tema, contador de stats, scroll-reveal,
-                        nav activo, envío del form a WhatsApp,
-                        carrusel de servicios
+                        nav activo, envío del form a WhatsApp
+                        (el carrusel de servicios es puro CSS, sin
+                        lógica en JS)
       · js/chrome.js → shader WebGL del fondo animado
       · js/disc.js   → disco 3D con three.js (vía CDN/importmap),
                         con foco de luz y rotación ligada al scroll
@@ -90,8 +92,8 @@ restricciones de módulos ES / fetch del .glb.
       .gitignore
   12. (2026-09-15, sin commit todavía) La sección Servicios pasó
       de grilla a carrusel
-  13. (2026-09-15, sin commit todavía) El carrusel de Servicios
-      pasó a ser infinito
+  13. (2026-09-15, sin commit todavía) El carrusel de Servicios se
+      rehizo dos veces hasta quedar como cinta continua automática
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -162,20 +164,26 @@ la pena resolver o decidir:
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
 
-  [2026-09-15] Carrusel de Servicios infinito
-    - El carrusel ya no tiene principio ni fin: después de la
-      última tarjeta viene la primera (y al revés), sin rebobinar.
-    - Técnica: se agrega por JavaScript una copia de las 6
-      tarjetas antes y otra después de las originales (ocultas
-      para lectores de pantalla y no enfocables). Cuando el
-      desplazamiento se detiene sobre una copia, se salta de forma
-      instantánea e invisible a la tarjeta original equivalente.
-    - Las flechas ya no se deshabilitan en los extremos.
-    - Puntos indicadores: ahora siempre son 6 (uno por servicio),
-      en cualquier tamaño de pantalla.
-    - El avance automático sigue siempre hacia adelante en vez de
-      volver al inicio.
-    - Archivos: js/main.js, css/styles.css, DOCUMENTACION.txt
+  [2026-09-15] Carrusel de Servicios como cinta continua
+    - Se descartó el enfoque anterior (carrusel paginado con
+      flechas, puntos y avance cada 5 s) porque lo pedido era un
+      "bucle infinito automático": las tarjetas se deslizan solas
+      sin parar, sin que haga falta tocar nada.
+    - Se eliminaron las flechas, los puntos indicadores y todo el
+      JavaScript del carrusel (ya no queda lógica de carrusel en
+      js/main.js).
+    - Técnica: se duplicó el bloque de las 6 tarjetas dentro del
+      HTML (el segundo bloque está marcado aria-hidden e inert,
+      así que no lo ven los lectores de pantalla ni se puede
+      tabular hasta él). Una animación CSS (@keyframes) desliza
+      todo el conjunto y, al llegar a la mitad exacta del ancho
+      total, se reinicia — como el ancho de la copia es idéntico
+      al original, el reinicio es invisible.
+    - Se pausa al pasar el mouse por encima o al enfocar con
+      teclado, y se desactiva del todo si el sistema tiene
+      "reducir movimiento" activado.
+    - Archivos: index.html, css/styles.css, js/main.js,
+      DOCUMENTACION.txt
 
   [2026-09-15] Servicios convertido en carrusel
     - La grilla de 6 tarjetas de "Servicios" ahora es un carrusel
