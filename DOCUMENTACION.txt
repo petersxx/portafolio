@@ -12,9 +12,10 @@ secciones, en este orden:
 
   - Inicio (hero): título, bajada, botones "Ver proyectos" y
     "Hablemos", y una caja de CD que "gira" a medida que se hace
-    scroll: 3 fotos (frente, en ángulo y dorso) que se van
-    fundiendo entre sí mientras cada una gira un poco en 3D, con
-    inercia, y con destellos alrededor.
+    scroll: 3 fotos (frente, en ángulo y dorso). Cada foto gira
+    como una moneda hasta quedar de canto y ahí la reemplaza la
+    siguiente, que completa el giro. Con inercia y destellos
+    alrededor.
   - Marquee: cinta animada con palabras clave de los servicios
     (Diseño web, Software a medida, E-commerce, etc.).
   - Nosotros: texto de presentación + estadísticas animadas
@@ -99,7 +100,9 @@ recomienda `python3 -m http.server 8000`).
   15. (2026-09-16) La estrella del hero se reemplazó por 3 fotos de
       un CD que se alternan con el scroll
   16. (2026-09-16) Transición del CD más suave: fundido largo, giro
-      3D de cada foto e inercia
+      3D de cada foto e inercia (commit f8eca94)
+  17. (2026-09-16) El fundido del CD se reemplazó por un giro tipo
+      moneda, sin fotos superpuestas
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -170,6 +173,25 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-16] Giro del CD tipo moneda (reemplaza el fundido)
+    - Al usuario no le gustó el fundido cruzado con giro de 22°
+      (entrada de abajo): a mitad del cambio se veían dos cajas
+      superpuestas y quedaba como un "fantasma".
+    - Nuevo enfoque: nunca hay dos fotos visibles a la vez. La
+      foto actual gira sobre su eje vertical (rotateY con
+      perspectiva) de 0° a 90°; al quedar de canto no se ve, y en
+      ese instante se cambia por la siguiente, que sigue girando
+      de -90° a 0°. Se lee como una caja que da vuelta.
+    - El giro ocupa el 60% central de cada tramo de scroll
+      (CD_FLIP = 0.6), con curva suave: arranca lento, pasa rápido
+      por el canto y frena al quedar de frente. Fuera de ese 60%
+      la foto queda quieta de frente.
+    - Se mantiene la inercia (CD_EASE). Con "reducir movimiento"
+      no hay giro: la foto cambia de golpe a mitad del tramo.
+    - Se eliminaron CD_FADE y CD_TURN (ya no se usan).
+    - Verificado en el navegador a 40% / 60% de cada cambio.
+    - Archivos: js/main.js, DOCUMENTACION.txt
 
   [2026-09-16] Transición más suave en el giro del CD
     - Pedido: que el cambio entre fotos se sienta como un giro

@@ -100,10 +100,8 @@ sections.forEach((s) => activeObserver.observe(s));
 const heroVisual = document.querySelector(".hero-visual");
 const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
 const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-// Fracción de cada tramo que dura el fundido; el resto el cuadro queda quieto.
-const CD_FADE = 0.7;
-// Cuánto gira cada foto (en grados) al pasar de un cuadro al siguiente.
-const CD_TURN = 22;
+// Fracción de cada tramo que dura el giro; el resto el cuadro queda quieto.
+const CD_FLIP = 0.6;
 // Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
 const CD_EASE = 0.1;
 let cdScrollEnd = 1;
@@ -121,16 +119,17 @@ function cdTarget() {
 }
 
 function renderCd(pos) {
+  // Giro tipo moneda: la foto actual rota hasta quedar de canto (90°) y en ese instante
+  // la reemplaza la siguiente, que completa el giro desde -90° hasta quedar de frente.
+  const last = cdFrames.length - 1;
+  const seg = Math.min(last - 1, Math.floor(pos));
+  const angle = 180 * smoothstep((1 - CD_FLIP) / 2, (1 + CD_FLIP) / 2, pos - seg);
+  const showing = angle < 90 ? seg : seg + 1;
   cdFrames.forEach((img, i) => {
-    // Fundido cruzado: la foto entrante aparece primero y la saliente se va después,
-    // así la caja nunca queda semitransparente a mitad del giro.
-    const fadeIn = smoothstep(0, 0.6, (pos - (i - 1) - (1 - CD_FADE) / 2) / CD_FADE);
-    const fadeOut = 1 - smoothstep(0.4, 1, (pos - i - (1 - CD_FADE) / 2) / CD_FADE);
-    img.style.opacity = i === 0 ? fadeOut : i === cdFrames.length - 1 ? fadeIn : Math.min(fadeIn, fadeOut);
-    if (!cdReduceMotion) {
-      const turn = Math.max(-1, Math.min(1, pos - i)) * CD_TURN;
-      img.style.transform = `perspective(1400px) rotateY(${turn.toFixed(2)}deg)`;
-    }
+    img.style.opacity = i === showing ? 1 : 0;
+    if (i !== showing) return;
+    const turn = i === seg ? angle : angle - 180;
+    img.style.transform = cdReduceMotion ? "" : `perspective(1400px) rotateY(${turn.toFixed(2)}deg)`;
   });
 }
 
