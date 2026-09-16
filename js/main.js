@@ -96,6 +96,80 @@ const activeObserver = new IntersectionObserver(
 
 sections.forEach((s) => activeObserver.observe(s));
 
+// Hero: los 3 cuadros del CD se van alternando con el scroll para dar sensación de giro.
+const heroVisual = document.querySelector(".hero-visual");
+const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
+const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Fracción de cada tramo que dura el fundido; el resto el cuadro queda quieto.
+const CD_FADE = 0.7;
+// Cuánto gira cada foto (en grados) al pasar de un cuadro al siguiente.
+const CD_TURN = 22;
+// Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
+const CD_EASE = 0.1;
+let cdScrollEnd = 1;
+let cdPos = null;
+let cdRaf = null;
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const smoothstep = (a, b, v) => {
+  const t = clamp01((v - a) / (b - a));
+  return t * t * (3 - 2 * t);
+};
+
+function cdTarget() {
+  return clamp01(window.scrollY / cdScrollEnd) * (cdFrames.length - 1);
+}
+
+function renderCd(pos) {
+  cdFrames.forEach((img, i) => {
+    // Fundido cruzado: la foto entrante aparece primero y la saliente se va después,
+    // así la caja nunca queda semitransparente a mitad del giro.
+    const fadeIn = smoothstep(0, 0.6, (pos - (i - 1) - (1 - CD_FADE) / 2) / CD_FADE);
+    const fadeOut = 1 - smoothstep(0.4, 1, (pos - i - (1 - CD_FADE) / 2) / CD_FADE);
+    img.style.opacity = i === 0 ? fadeOut : i === cdFrames.length - 1 ? fadeIn : Math.min(fadeIn, fadeOut);
+    if (!cdReduceMotion) {
+      const turn = Math.max(-1, Math.min(1, pos - i)) * CD_TURN;
+      img.style.transform = `perspective(1400px) rotateY(${turn.toFixed(2)}deg)`;
+    }
+  });
+}
+
+function stepCd() {
+  const target = cdTarget();
+  cdPos += (target - cdPos) * CD_EASE;
+  if (Math.abs(target - cdPos) < 0.001) {
+    cdPos = target;
+    cdRaf = null;
+  } else {
+    cdRaf = requestAnimationFrame(stepCd);
+  }
+  renderCd(cdPos);
+}
+
+function measureCd() {
+  const rect = heroVisual.getBoundingClientRect();
+  // La secuencia termina cuando el centro de la imagen llega al borde superior de la pantalla.
+  cdScrollEnd = Math.max(1, rect.top + window.scrollY + rect.height * 0.5);
+  if (cdPos === null || cdReduceMotion) {
+    cdPos = cdTarget();
+    renderCd(cdPos);
+  } else {
+    requestCd();
+  }
+}
+
+function requestCd() {
+  if (cdReduceMotion) {
+    renderCd(cdTarget());
+  } else if (cdRaf === null) {
+    cdRaf = requestAnimationFrame(stepCd);
+  }
+}
+
+window.addEventListener("scroll", requestCd, { passive: true });
+window.addEventListener("resize", measureCd);
+measureCd();
+
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(e.target);

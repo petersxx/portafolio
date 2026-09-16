@@ -8,7 +8,6 @@ Sitio web de Main Technologies, empresa de desarrollo de software: servicios, pr
 - CSS3 (variables, grid, modo claro/oscuro)
 - JavaScript vanilla (sin dependencias ni build)
 - WebGL para el fondo de cromo líquido animado
-- three.js (desde CDN) para el disco 3D que gira con el scroll
 
 ## Estructura
 
@@ -16,15 +15,14 @@ Sitio web de Main Technologies, empresa de desarrollo de software: servicios, pr
 portafolio/
 ├── index.html      # Página principal
 ├── css/styles.css  # Estilos
-├── js/main.js      # Interactividad (menú, tema, animaciones, carrusel, formulario)
+├── js/main.js      # Interactividad (menú, tema, animaciones, CD con scroll, formulario)
 ├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
-├── js/disc.js      # Disco 3D (three.js): foco de luz y rotación con scroll
-└── assets/models/disco.glb  # Modelo del disco, optimizado (meshopt + WebP)
+└── assets/img/     # Cuadros del CD del hero (cambian con el scroll)
 ```
 
 ## Ver en local
 
-Levantá un servidor simple (el disco 3D no carga si abrís `index.html` directo como archivo):
+Levantá un servidor simple:
 
 ```bash
 python3 -m http.server 8000
