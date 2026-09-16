@@ -19,15 +19,17 @@ secciones, en este orden:
     (proyectos, años, tecnologías).
   - Servicios: carrusel con 6 tarjetas (Desarrollo web, Software a
     medida, E-commerce, Aplicaciones web, Diseño UI/UX,
-    Automatización e integraciones) + listado de stack tecnológico.
-    Es una cinta continua (igual en técnica al marquee de palabras
-    clave del hero): se desliza sola todo el tiempo, sin flechas,
-    sin puntos y sin paradas entre tarjeta y tarjeta. El bucle es
-    perfecto porque en realidad hay dos copias idénticas de las 6
-    tarjetas una detrás de la otra, y la animación solo recorre el
-    ancho de una copia antes de reiniciarse. Se pausa al pasar el
-    mouse por encima o al enfocar una tarjeta con el teclado, y no
-    se anima si el sistema tiene activado "reducir movimiento".
+    Automatización e integraciones) + "Tecnologías que usamos".
+    Las dos son cintas continuas (igual en técnica al marquee de
+    palabras clave del hero): se deslizan solas todo el tiempo, sin
+    flechas, sin puntos y sin paradas. Las tarjetas van hacia la
+    izquierda y las tecnologías hacia la derecha, en sentidos
+    opuestos. El bucle es perfecto porque en realidad hay dos
+    copias idénticas del bloque, una detrás de la otra, y la
+    animación recorre exactamente el ancho de una copia antes de
+    reiniciarse. Se pausan al pasar el mouse por encima o al
+    enfocar con el teclado, y no se animan si el sistema tiene
+    activado "reducir movimiento".
   - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
@@ -163,6 +165,89 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-15] "Tecnologías que usamos" también es carrusel
+    - La lista de tecnologías dejó de ser una grilla que se
+      acomodaba en dos filas: ahora es una cinta continua, con la
+      misma técnica que Servicios (bloque duplicado + animación
+      CSS), pero girando en sentido CONTRARIO (hacia la derecha).
+    - El sentido inverso se logra con animation-direction: reverse
+      sobre la misma animación, sin escribir otra.
+    - Reusa las clases .carousel / .carousel-track / .carousel-group
+      y solo agrega el modificador .carousel--tags, que ajusta la
+      separación (8px en vez de 20px), saca el padding vertical que
+      necesitaban las tarjetas y pone la duración en 40s.
+    - Se arregló de paso un defecto que ya tenía el carrusel de
+      Servicios: la animación desplaza la cinta un 50%, pero como
+      la separación entre los dos grupos estaba puesta en la cinta
+      (gap del track), ese 50% quedaba media separación corto y el
+      bucle pegaba un salto de 10px en cada vuelta. Ahora cada
+      grupo lleva su propia separación final (padding-right), así
+      el 50% equivale exactamente al ancho de un grupo. Verificado
+      midiendo: mitad de la cinta = ancho del grupo, en los dos.
+    - Archivos: index.html, css/styles.css, DOCUMENTACION.txt
+
+  [2026-09-15] Bordes más gruesos en todo el sitio
+    - El anillo degradado que rodea los paneles pasó de 1px a 2px.
+      Aplica a todo lo que usa .glass o .chrome-edge: la barra de
+      navegación, el botón de tema, el botón "Hablemos", el bloque
+      de Nosotros, las tarjetas de Servicios y de Proyectos, y el
+      formulario de contacto.
+    - El grosor del anillo es el "padding" del pseudo-elemento
+      .glass::before, así que se cambia en un solo lugar. El menú
+      móvil (.nav-links::before) tiene su propia copia de ese
+      anillo y se actualizó también, para que no quede desparejo.
+    - Archivos: css/styles.css, DOCUMENTACION.txt
+
+  [2026-09-15] Sombra propia en las tarjetas de Servicios
+    ESTADO FINAL (lo que quedó):
+    - Cada tarjeta de Servicios tiene una sombra permanente (no
+      solo al pasar el mouse) que cambia según el tema, con dos
+      variables CSS nuevas: --card-glow y --card-bg.
+    - Modo oscuro: sombra oscura de apoyo + un halo claro
+      azulado, para que la tarjeta resalte contra el fondo oscuro.
+    - Modo claro: una sola sombra oscura, suave y difusa.
+    - Las tarjetas NO llevan backdrop-filter (ver punto 3 abajo);
+      para compensar, su fondo (--card-bg) es más opaco que el del
+      resto de los paneles .glass.
+    - El borde lo sigue dando el pseudo-elemento .glass::before
+      del propio sitio; no se agrega ninguno extra.
+
+    QUÉ NO FUNCIONÓ (para no repetirlo):
+    - Se intentó "hacerla resaltar" apilando efectos: un anillo
+      sólido de 1.5px hecho con box-shadow, más una neblina de
+      color, más un halo blanco. Resultado: se veía barato, porque
+      ese anillo duro competía con el borde degradado que las
+      tarjetas ya traen de .glass::before, y desentonaba con el
+      resto de las tarjetas del sitio (Proyectos, Nosotros), que
+      usan una sola sombra suave. Lección: para que resalte,
+      seguir el lenguaje visual del sitio en vez de sumar capas.
+    - Se corrigió una banda rectangular con bordes rectos que se
+      veía alrededor de las tarjetas y parecía una sombra sólida.
+      Fueron TRES causas distintas, encontradas una tras otra:
+        1) El carrusel usaba overflow-x: hidden, y cuando un eje
+           está en "hidden" el navegador convierte el otro de
+           "visible" a "auto", que también recorta. Se cambió a
+           overflow-x: clip, que sí deja el eje vertical libre.
+        2) La máscara del degradado lateral (mask-image) recorta
+           todo lo pintado fuera de la caja del carrusel. Se le
+           agregó padding vertical de 60px, cancelado con margen
+           negativo, para agrandar esa caja sin mover el layout
+           (el espaciado alrededor quedó idéntico).
+        3) La causa principal: las tarjetas heredaban de .glass el
+           backdrop-filter (desenfoque del fondo). Como la cinta
+           se anima con transform, eso crea un "backdrop root", y
+           el desenfoque se pinta como un rectángulo con bordes
+           duros que abarca toda esa caja. Eso era la banda. El
+           transform es imprescindible para la animación, así que
+           se desactivó el backdrop-filter solo en .skill-card
+           (el resto de los paneles .glass lo conservan).
+      Cómo se diagnosticó: ocultando las tarjetas la banda
+      desaparecía, lo que descartó al contenedor como causa.
+    - El carrusel solo recorta el desborde horizontal (donde está
+      el empalme del bucle); el vertical quedó abierto para que el
+      brillo no se corte contra el borde del carrusel.
+    - Archivos: css/styles.css, DOCUMENTACION.txt
 
   [2026-09-15] Carrusel de Servicios como cinta continua
     - Se descartó el enfoque anterior (carrusel paginado con
