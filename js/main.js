@@ -96,14 +96,27 @@ const activeObserver = new IntersectionObserver(
 
 sections.forEach((s) => activeObserver.observe(s));
 
-// Hero: los 3 cuadros del CD se van alternando con el scroll para dar sensación de giro.
+// Hero: escenario de scroll. El CD gira sobre su eje (y va cambiando de cuadro como
+// una moneda) mientras crece desde su lugar del hero hasta ocupar toda la pantalla.
+// Cuando termina el escenario, la caja se despega y entra el resto de la información.
+const heroStage = document.querySelector(".hero-stage");
+const heroSticky = document.querySelector(".hero-sticky");
+const heroText = document.querySelector(".hero-text");
 const heroVisual = document.querySelector(".hero-visual");
+const cdStage = heroVisual.querySelector(".cd-stage");
 const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
 const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-// Fracción de cada tramo que dura el giro; el resto el cuadro queda quieto.
+// Fracción de cada tramo que dura el cambio de cuadro; el resto el cuadro queda quieto.
 const CD_FLIP = 0.6;
 // Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
-const CD_EASE = 0.1;
+const CD_EASE = 0.12;
+// Grados que gira el CD sobre su propio eje en todo el recorrido.
+const CD_SPIN = 540;
+// Tramo final del escenario en el que el CD ya llena la pantalla y se queda quieto.
+const CD_HOLD = 0.18;
+// Recorte de .cd-stage dentro de .hero-visual (inset: 6%).
+const CD_INSET = 0.88;
+let cdScrollStart = 0;
 let cdScrollEnd = 1;
 let cdPos = null;
 let cdRaf = null;
@@ -114,29 +127,65 @@ const smoothstep = (a, b, v) => {
   return t * t * (3 - 2 * t);
 };
 
+// Progreso del escenario: 0 = CD en su sitio del hero, 1 = CD llenando la pantalla.
 function cdTarget() {
-  return clamp01(window.scrollY / cdScrollEnd) * (cdFrames.length - 1);
+  return clamp01((window.scrollY - cdScrollStart) / cdScrollEnd);
 }
 
-function renderCd(pos) {
+function renderCd(p) {
   // Giro tipo moneda: la foto actual rota hasta quedar de canto (90°) y en ese instante
   // la reemplaza la siguiente, que completa el giro desde -90° hasta quedar de frente.
+  // Encima, todo el CD gira sobre su propio eje a medida que crece.
   const last = cdFrames.length - 1;
+  const pos = p * last;
   const seg = Math.min(last - 1, Math.floor(pos));
   const angle = 180 * smoothstep((1 - CD_FLIP) / 2, (1 + CD_FLIP) / 2, pos - seg);
   const showing = angle < 90 ? seg : seg + 1;
+  const spin = (CD_SPIN * p).toFixed(2);
   cdFrames.forEach((img, i) => {
     img.style.opacity = i === showing ? 1 : 0;
     if (i !== showing) return;
     const turn = i === seg ? angle : angle - 180;
-    img.style.transform = cdReduceMotion ? "" : `perspective(1400px) rotateY(${turn.toFixed(2)}deg)`;
+    img.style.transform = cdReduceMotion
+      ? ""
+      : `perspective(1400px) rotateY(${turn.toFixed(2)}deg) rotate(${spin}deg)`;
   });
+
+  if (cdReduceMotion) return;
+
+  // Crecimiento: el CD se va corriendo al centro de la pantalla y escala hasta llenarla.
+  const rect = heroVisual.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const natural = rect.width * CD_INSET;
+  const scaleMax = natural > 0 ? Math.max(vw, vh) / natural : 1;
+  const scale = 1 + (scaleMax - 1) * p;
+  const dx = vw / 2 - (rect.left + rect.width / 2);
+  const dy = vh / 2 - (rect.top + rect.height / 2);
+  cdStage.style.setProperty("--cd-x", `${(dx * p).toFixed(1)}px`);
+  cdStage.style.setProperty("--cd-y", `${(dy * p).toFixed(1)}px`);
+  cdStage.style.setProperty("--cd-scale", scale.toFixed(4));
+  cdStage.style.setProperty("--cd-bob", `${(14 / scale).toFixed(2)}px`);
+
+  // El texto, el halo y los destellos se apagan mientras el CD toma la pantalla.
+  const fade = 1 - smoothstep(0.02, 0.4, p);
+  heroVisual.style.setProperty("--cd-aux", fade.toFixed(3));
+  if (p < 0.001) {
+    // Sin scroll dejamos que mande el CSS (así la entrada .reveal se ve completa).
+    heroText.style.removeProperty("opacity");
+    heroText.style.removeProperty("transform");
+    heroText.style.removeProperty("transition");
+  } else {
+    heroText.style.transition = "none";
+    heroText.style.opacity = fade.toFixed(3);
+    heroText.style.transform = `translateY(${(-60 * p).toFixed(1)}px) scale(${(1 - 0.08 * p).toFixed(3)})`;
+  }
 }
 
 function stepCd() {
   const target = cdTarget();
   cdPos += (target - cdPos) * CD_EASE;
-  if (Math.abs(target - cdPos) < 0.001) {
+  if (Math.abs(target - cdPos) < 0.0005) {
     cdPos = target;
     cdRaf = null;
   } else {
@@ -146,10 +195,15 @@ function stepCd() {
 }
 
 function measureCd() {
-  const rect = heroVisual.getBoundingClientRect();
-  // La secuencia termina cuando el centro de la imagen llega al borde superior de la pantalla.
-  cdScrollEnd = Math.max(1, rect.top + window.scrollY + rect.height * 0.5);
-  if (cdPos === null || cdReduceMotion) {
+  // El escenario se mete debajo del header, así que el CSS necesita su alto real.
+  const header = document.querySelector(".site-header");
+  document.documentElement.style.setProperty("--hdr", `${header.offsetHeight}px`);
+  cdScrollStart = heroStage.getBoundingClientRect().top + window.scrollY;
+  // Recorrido útil: el alto del escenario menos la pantalla fija, dejando un tramo
+  // final (CD_HOLD) en el que el CD ya está a pantalla completa.
+  const travel = heroStage.offsetHeight - heroSticky.offsetHeight;
+  cdScrollEnd = Math.max(1, travel * (1 - CD_HOLD));
+  if (cdPos === null) {
     cdPos = cdTarget();
     renderCd(cdPos);
   } else {
@@ -158,16 +212,18 @@ function measureCd() {
 }
 
 function requestCd() {
-  if (cdReduceMotion) {
-    renderCd(cdTarget());
-  } else if (cdRaf === null) {
-    cdRaf = requestAnimationFrame(stepCd);
-  }
+  if (cdRaf === null) cdRaf = requestAnimationFrame(stepCd);
 }
 
-window.addEventListener("scroll", requestCd, { passive: true });
-window.addEventListener("resize", measureCd);
-measureCd();
+if (cdReduceMotion) {
+  // Sin movimiento no hay escenario: el CD se queda quieto en su primer cuadro.
+  renderCd(0);
+} else {
+  window.addEventListener("scroll", requestCd, { passive: true });
+  window.addEventListener("resize", measureCd);
+  window.addEventListener("load", measureCd);
+  measureCd();
+}
 
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();

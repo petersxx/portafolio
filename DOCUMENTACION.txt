@@ -1,6 +1,6 @@
 ================================================================
  MAIN TECHNOLOGIES — DOCUMENTACIÓN DEL PROYECTO
- Última actualización: 2026-09-16
+ Última actualización: 2026-09-17
 ================================================================
 
 1. CONCEPTO DE LA PÁGINA
@@ -11,11 +11,15 @@ corporativo de una sola página (one-pager) con las siguientes
 secciones, en este orden:
 
   - Inicio (hero): título, bajada, botones "Ver proyectos" y
-    "Hablemos", y una caja de CD que "gira" a medida que se hace
-    scroll: 3 fotos (frente, en ángulo y dorso). Cada foto gira
-    como una moneda hasta quedar de canto y ahí la reemplaza la
-    siguiente, que completa el giro. Con inercia y destellos
-    alrededor.
+    "Hablemos", y una caja de CD que crece girando con el scroll.
+    El hero vive dentro de un "escenario" alto: mientras se
+    recorre, la pantalla queda fija y el CD va creciendo desde su
+    lugar hasta ocupar toda la pantalla, girando sobre su propio
+    eje y cambiando entre sus 3 fotos (frente, en ángulo y dorso)
+    con un giro tipo moneda. El texto, el halo y los destellos se
+    apagan mientras el CD toma la pantalla; cuando termina el
+    escenario, la caja se despega y entra el resto de la
+    información (marquee, Nosotros, etc.). Con inercia.
   - Marquee: cinta animada con palabras clave de los servicios
     (Diseño web, Software a medida, E-commerce, etc.).
   - Nosotros: texto de presentación + estadísticas animadas
@@ -103,6 +107,9 @@ recomienda `python3 -m http.server 8000`).
       3D de cada foto e inercia (commit f8eca94)
   17. (2026-09-16) El fundido del CD se reemplazó por un giro tipo
       moneda, sin fotos superpuestas
+  18. (2026-09-17) El hero pasó a ser un escenario de scroll: el CD
+      crece girando hasta ocupar toda la pantalla y recién después
+      aparece el resto de la información
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -173,6 +180,51 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-17] El CD del hero crece hasta ocupar toda la pantalla
+    - Pedido: que al hacer scroll la imagen del disco vaya
+      creciendo hasta ocupar toda la pantalla mientras gira, y que
+      después salga el resto de la información.
+    - El hero ahora vive dentro de un escenario alto
+      (.hero-stage, alto = 100svh + 170vh; 140vh en mobile). Dentro
+      hay una caja pegajosa (.hero-sticky, position: sticky,
+      100svh) que queda fija mientras se recorre el escenario, así
+      el crecimiento se lee sin que el hero se vaya de pantalla.
+      Al terminar el escenario la caja se despega y entra el
+      marquee y "Nosotros" con sus animaciones de siempre.
+    - El escenario se mete debajo del header con margen negativo
+      (--hdr, que js/main.js mide del header real) para que arranque
+      justo en el borde superior de la pantalla.
+    - Nuevo contenedor .cd-stage alrededor de las fotos: js/main.js
+      le escribe --cd-x / --cd-y (lo corre hasta el centro de la
+      pantalla) y --cd-scale (lo agranda hasta que su lado mayor
+      iguala al lado mayor de la pantalla). .hero-sticky tiene
+      overflow: hidden, así el CD gigante se recorta contra los
+      bordes y nunca aparece scroll horizontal.
+    - Al giro tipo moneda (rotateY, que se mantiene igual) se le
+      sumó un giro sobre su propio eje: rotate() de 0° a 540°
+      (CD_SPIN) a lo largo de todo el recorrido.
+    - El progreso del escenario (0 a 1) reemplaza al índice de
+      cuadro como variable principal: de ahí salen el cuadro que
+      se muestra, el giro, la escala y el desplazamiento. El último
+      18% del recorrido (CD_HOLD) queda como pausa con el CD ya a
+      pantalla completa.
+    - El texto del hero se apaga y se va hacia arriba, y el halo y
+      los destellos (ahora envueltos en .hero-sparks) se apagan con
+      --cd-aux, entre el 2% y el 40% del recorrido.
+    - La sombra del CD y el flotado (bob) se dividen por la escala,
+      así no crecen junto con la imagen.
+    - Con "reducir movimiento" no hay escenario: el hero vuelve a
+      ser una sección normal, sin zoom ni listeners de scroll, y el
+      CD queda quieto en su primer cuadro.
+    - En mobile se ajustó el hero para que texto y CD entren juntos
+      en una pantalla (gap y márgenes más chicos, CD limitado a
+      min(300px, 30svh)).
+    - Verificado en el navegador a 1440x663 y a 500x663, al inicio,
+      a mitad del recorrido, a pantalla completa y después del
+      escenario: sin errores de consola y sin scroll horizontal.
+    - Archivos: index.html, css/styles.css, js/main.js,
+      DOCUMENTACION.txt
 
   [2026-09-16] Giro del CD tipo moneda (reemplaza el fundido)
     - Al usuario no le gustó el fundido cruzado con giro de 22°
