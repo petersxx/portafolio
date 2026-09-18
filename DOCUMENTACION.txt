@@ -133,6 +133,7 @@ recomienda `python3 -m http.server 8000`).
   24. (2026-09-18) Mobile sin animaciones de scroll (CD y
       Servicios) y arreglos de layout en el celular
   25. (2026-09-18) Estrellas SVG arregladas (se veían recortadas)
+  26. (2026-09-18) El CD flota en mobile (sin escenario de scroll)
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -198,6 +199,17 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] El CD vuelve a flotar en mobile
+    - Pedido: que en mobile el disco tenga el efecto de flotar.
+    - En mobile el CD recupera la animación "bob" (sube y baja
+      suave, ciclo de 7 s). Sigue sin escenario de scroll: no
+      gira, no cambia de cuadro ni crece.
+    - Con "reducir movimiento" activado sigue quieto del todo.
+    - css/styles.css: se sacó ".cd-frames { animation: none }" del
+      bloque compartido con mobile; queda solo en el de "reducir
+      movimiento".
+    - Archivos: css/styles.css, DOCUMENTACION.txt
 
   [2026-09-18] Estrellas SVG arregladas
     - Las estrellas del botón de tema, de las tarjetas de Servicios
