@@ -1,6 +1,6 @@
 ================================================================
  MAIN TECHNOLOGIES — DOCUMENTACIÓN DEL PROYECTO
- Última actualización: 2026-09-17
+ Última actualización: 2026-09-18
 ================================================================
 
 1. CONCEPTO DE LA PÁGINA
@@ -195,6 +195,20 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Revisión de datos sensibles
+    - Se revisaron los archivos locales y todo el historial de git
+      (el repo es público en GitHub) buscando claves, tokens y
+      contraseñas: no hay nada expuesto.
+    - .env.local (token de Vercel generado al vincular el proyecto)
+      y .vercel/ nunca se commitearon: los excluye .gitignore.
+    - Se borró .env.local: el sitio es estático y no lo usa, y el
+      token ya había vencido. Si hiciera falta se regenera con
+      `vercel env pull`.
+    - El número de WhatsApp en js/main.js queda público a propósito
+      (el formulario lo necesita y se ve igual en el link wa.me).
+    - Archivos: .env.local (borrado, no versionado),
+      DOCUMENTACION.txt
 
   [2026-09-17] El escenario de Servicios también en mobile
     - Pedido: que en la versión mobile el efecto sea el mismo.
