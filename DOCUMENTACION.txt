@@ -24,19 +24,25 @@ secciones, en este orden:
     (Diseño web, Software a medida, E-commerce, etc.).
   - Nosotros: texto de presentación + estadísticas animadas
     (proyectos, años, tecnologías).
-  - Servicios: carrusel con 6 tarjetas (Desarrollo web, Software a
+  - Servicios: rejilla de 6 tarjetas (Desarrollo web, Software a
     medida, E-commerce, Aplicaciones web, Diseño UI/UX,
     Automatización e integraciones) + "Tecnologías que usamos".
-    Las dos son cintas continuas (igual en técnica al marquee de
-    palabras clave del hero): se deslizan solas todo el tiempo, sin
-    flechas, sin puntos y sin paradas. Las tarjetas van hacia la
-    izquierda y las tecnologías hacia la derecha, en sentidos
-    opuestos. El bucle es perfecto porque en realidad hay dos
-    copias idénticas del bloque, una detrás de la otra, y la
-    animación recorre exactamente el ancho de una copia antes de
-    reiniciarse. Se pausan al pasar el mouse por encima o al
-    enfocar con el teclado, y no se animan si el sistema tiene
-    activado "reducir movimiento".
+    Las tarjetas ya no se deslizan: la rejilla (3 columnas, 2 y 1
+    según el ancho) queda pegada a la pantalla durante un tramo
+    largo de scroll y cada cuadro va apareciendo de a uno, en
+    orden, cuanto más se baja. Cuando ya están las 6, la sección se
+    despega y sigue la página. En mobile es el mismo efecto: como
+    las 6 tarjetas no entran juntas en una pantalla, la columna se
+    desliza dentro del panel fijo y cada tarjeta aparece centrada
+    cuando le toca. "Tecnologías que usamos" sigue siendo una
+    cinta continua (igual en técnica al marquee de palabras clave
+    del hero): se desliza sola hacia la derecha, sin flechas ni
+    puntos, con el bucle perfecto porque hay dos copias idénticas
+    del bloque una detrás de la otra y la animación recorre
+    exactamente el ancho de una copia antes de reiniciarse. Se
+    pausa al pasar el mouse por encima o al enfocar con el teclado,
+    y no se anima si el sistema tiene activado "reducir
+    movimiento".
   - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
@@ -60,7 +66,9 @@ localStorage, y estrellas/destellos decorativos en SVG.
                         nav activo, envío del form a WhatsApp,
                         cambio de cuadros del CD del hero según
                         el scroll
-                        (el carrusel de servicios es puro CSS, sin
+                        aparición de las tarjetas de servicios
+                        según el scroll
+                        (la cinta de tecnologías es puro CSS, sin
                         lógica en JS)
       · js/chrome.js → shader WebGL del fondo animado
   - Imágenes del hero: assets/img/cd-1.webp, cd-2.webp, cd-3.webp
@@ -110,6 +118,13 @@ recomienda `python3 -m http.server 8000`).
   18. (2026-09-17) El hero pasó a ser un escenario de scroll: el CD
       crece girando hasta ocupar toda la pantalla y recién después
       aparece el resto de la información
+  19. (2026-09-17) Servicios dejó de ser carrusel: volvió a ser una
+      rejilla y cada tarjeta aparece con el scroll
+  20. (2026-09-17) Servicios también pasó a ser un escenario de
+      scroll largo: la rejilla queda fija y las tarjetas van
+      apareciendo de a una
+  21. (2026-09-17) El escenario de Servicios también corre en
+      mobile: la columna se desliza dentro del panel fijo
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -180,6 +195,107 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-17] El escenario de Servicios también en mobile
+    - Pedido: que en la versión mobile el efecto sea el mismo.
+    - El problema era que en una columna las 6 tarjetas no entran
+      juntas en una pantalla, así que antes el escenario se apagaba
+      por debajo de 861px y quedaban las apariciones sueltas.
+    - Solución: la rejilla vive ahora dentro de .services-viewport,
+      una ventana del alto del panel fijo. Si la rejilla entra
+      entera (escritorio), queda centrada y quieta, igual que
+      antes. Si no entra (mobile, o ventanas muy bajas), la rejilla
+      se desliza dentro de la ventana para que la tarjeta que está
+      apareciendo quede en el medio: se ven dos o tres a la vez y
+      van subiendo a medida que se baja.
+    - js/main.js calcula el centro de cada tarjeta una vez
+      (srvCenters) y, con el progreso del escenario, interpola
+      entre esos centros; el desplazamiento queda topado para que
+      la rejilla nunca se despegue del borde de arriba ni del de
+      abajo. Es la misma fórmula para los dos casos, no hay una
+      rama "mobile".
+    - La ventana solo recorta cuando hace falta (clase .is-windowed)
+      y ahí se difumina contra los bordes de arriba y abajo con una
+      máscara, igual que la cinta de tecnologías, en vez de cortar
+      las tarjetas en línea recta. Cuando no recorta, el brillo de
+      las tarjetas sigue saliendo del panel como siempre.
+    - Se eliminó la condición @media (min-width: 861px) and
+      (min-height: 520px): el escenario corre en todos los tamaños
+      y solo se apaga con "reducir movimiento".
+    - Verificado en el navegador a 500x663: panel fijo, las 6
+      tarjetas entran de a una con la columna deslizándose, sin
+      scroll horizontal; y a 1440x719 sigue igual que antes (la
+      rejilla entra entera, centrada y sin deslizamiento).
+    - Archivos: index.html, css/styles.css, js/main.js,
+      DOCUMENTACION.txt
+
+  [2026-09-17] Servicios: escenario de scroll largo, una tarjeta
+  por vez
+    - Pedido: que sea un scroll largo y que, cuanto más se baje,
+      vayan apareciendo las tarjetas de a una.
+    - Mismo recurso que el hero (no se inventó un efecto nuevo): la
+      rejilla vive dentro de .services-stage (alto = 100svh +
+      210vh) y queda pegada a la pantalla con .services-sticky
+      mientras se recorre ese tramo. El 15% final (SRV_HOLD) queda
+      como pausa con las 6 tarjetas ya puestas, antes de que la
+      sección se despegue y siga "Tecnologías que usamos".
+    - js/main.js calcula el progreso del escenario (0 a 1) leyendo
+      la posición de la caja pegajosa, y le escribe a cada
+      .service-slot una variable --t (0 a 1). Cada tarjeta tiene su
+      sexto del recorrido; SRV_SPAN (0.7) hace que su aparición
+      ocupe el 70% de ese tramo, así se solapan apenas y no entran
+      de golpe.
+    - La tarjeta aparece con el mismo fundido y desplazamiento de
+      28px que usa .reveal en todo el sitio, pero pegado al scroll
+      (sin transición, si no llegaría tarde).
+    - Cada tarjeta quedó envuelta en un .service-slot: el slot es
+      el que aparece con el scroll y la tarjeta conserva su hover
+      de siempre (subir 6px), así no se pisan.
+    - El escenario solo corre donde la rejilla entera entra en
+      pantalla (min-width: 861px y min-height: 520px, misma regla
+      en CSS y en JS). Fuera de ahí —mobile, ventanas bajas o
+      "reducir movimiento"— no hay escenario: la clase .is-staged
+      no se aplica y cada tarjeta aparece sola al entrar en
+      pantalla con .reveal, como el resto del sitio.
+    - Verificado en el navegador: a 1440x663 las tarjetas entran de
+      a una a lo largo del tramo y la sección se despega con las 6
+      puestas; a 500px de ancho el escenario se apaga y quedan las
+      apariciones sueltas. Sin scroll horizontal ni errores de
+      consola, y el escenario del hero sigue igual.
+    - Archivos: index.html, css/styles.css, js/main.js,
+      DOCUMENTACION.txt
+
+  [2026-09-17] Servicios: de carrusel a tarjetas que aparecen con
+  el scroll
+    - Pedido: que en Servicios, en vez de un carrusel, cada cuadro
+      vaya apareciendo a medida que se hace scroll.
+    - Las 6 tarjetas volvieron a una rejilla (.services-grid, misma
+      forma que .projects-grid: repeat(auto-fill, minmax(min(100%,
+      280px), 1fr)) con gap de 24px), así que son 3 columnas en
+      escritorio, 2 en tablet y 1 en mobile.
+    - Cada tarjeta lleva la clase .reveal, la misma que ya usa el
+      resto del sitio: entra sola cuando aparece en pantalla, con
+      el mismo fundido y desplazamiento de siempre. No se agregó
+      ningún efecto nuevo.
+    - Para que las tarjetas de una fila no entren todas de golpe,
+      .reveal ahora acepta un retardo por elemento
+      (--reveal-delay); en la rejilla las columnas 2 y 3 salen
+      0.12s y 0.24s después. Por debajo de 620px (una sola columna)
+      el retardo se apaga, porque ahí cada tarjeta ya entra sola.
+    - Se eliminó la copia duplicada de las 6 tarjetas (existía solo
+      para que el bucle del carrusel no se notara) y las clases de
+      carrusel en ese bloque.
+    - La tarjeta ya no necesita ancho fijo ni flex de slide, y
+      recupera el desenfoque de .glass (se lo había sacado porque
+      el transform del carrusel rompía el backdrop-filter). El
+      hover (subir 6px) ahora pide .visible, para que no pise la
+      animación de entrada.
+    - "Tecnologías que usamos" queda igual: sigue siendo la cinta
+      continua con .carousel / .carousel--tags.
+    - Verificado en el navegador: entrada escalonada de cada fila,
+      rejilla a 3 / 2 / 1 columnas, sin scroll horizontal y sin
+      errores de consola.
+    - Archivos: index.html, css/styles.css, DOCUMENTACION.txt
 
   [2026-09-17] El CD del hero crece hasta ocupar toda la pantalla
     - Pedido: que al hacer scroll la imagen del disco vaya

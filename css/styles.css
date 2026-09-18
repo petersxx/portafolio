@@ -462,7 +462,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-muted);
 }
 
-/* Continuous marquee-style loop: the track holds two identical groups back to back and scrolls exactly one group-width (-50%), so the loop point is invisible. */
+/* Continuous marquee-style loop (tech tags): the track holds two identical groups back to back and scrolls exactly one group-width (-50%), so the loop point is invisible. */
 .carousel {
   /* The vertical padding (cancelled out by the negative margins) enlarges the mask area, since the
      mask clips to this box and would otherwise cut the card glow off in a straight line. */
@@ -497,17 +497,69 @@ a { color: inherit; text-decoration: none; }
 }
 .carousel--tags .carousel-group { flex-wrap: nowrap; gap: 8px; padding-right: 8px; }
 
+/* Rejilla de servicios. Por defecto cada tarjeta entra sola con el scroll (.reveal);
+   donde la rejilla completa entra en pantalla, manda el escenario de más abajo. */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 24px;
+}
+.service-slot { display: flex; }
+.service-slot > .skill-card { flex: 1; }
+/* Las tarjetas de una misma fila entran escalonadas, de izquierda a derecha. */
+.services-grid .service-slot:nth-child(3n + 2) { --reveal-delay: 0.12s; }
+.services-grid .service-slot:nth-child(3n) { --reveal-delay: 0.24s; }
+/* En una sola columna cada tarjeta ya entra sola: el retardo solo la haría tardar. */
+@media (max-width: 620px) {
+  .services-grid .service-slot { --reveal-delay: 0s; }
+}
+
+/* Escenario de scroll de Servicios: mismo recurso que el hero. La rejilla queda pegada
+   a la pantalla y, cuanto más se baja, más tarjetas aparecen (js/main.js escribe --t,
+   de 0 a 1, en cada .service-slot). Cuando la rejilla no entra entera en pantalla
+   (mobile), además se desliza dentro del panel para que cada tarjeta entre centrada. */
+.services-stage {
+  position: relative;
+  --srv-scroll: 210vh;
+  height: calc(100vh + var(--srv-scroll));
+  height: calc(100svh + var(--srv-scroll));
+}
+.services-sticky {
+  position: sticky;
+  /* El header es sticky a 14px del borde, así que su base queda a --hdr + 14. */
+  top: calc(var(--hdr, 90px) + 14px);
+  height: calc(100vh - var(--hdr, 90px) - 28px);
+  height: calc(100svh - var(--hdr, 90px) - 28px);
+  display: flex;
+  flex-direction: column;
+}
+/* Ventana por la que se ve la rejilla. js/main.js la desliza escribiendo el transform. */
+.services-viewport {
+  flex: 1;
+  min-height: 0;
+}
+/* Solo cuando la rejilla es más alta que la ventana hay que recortarla, y ahí se
+   difumina contra los bordes en vez de cortarse en línea recta (igual que la cinta
+   de tecnologías). Fuera de ese caso no se recorta, así el brillo de las tarjetas
+   no queda cortado. */
+.services-viewport.is-windowed {
+  overflow: hidden;
+  margin-inline: -20px;
+  padding-inline: 20px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 44px, #000 calc(100% - 44px), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 44px, #000 calc(100% - 44px), transparent);
+}
+.services-grid.is-staged .service-slot {
+  opacity: var(--t, 0);
+  transform: translateY(calc((1 - var(--t, 0)) * 28px));
+  /* Va pegado al scroll: cualquier transición lo haría llegar tarde. */
+  transition: none;
+}
+
 .skill-card {
-  width: min(78vw, 300px);
-  flex: none;
   padding: 26px;
-  box-shadow: var(--card-glow), inset 0 1px 0 var(--glass-hi);
-  /* No backdrop blur here (unlike other .glass panels): the track's transform makes this a backdrop
-     root, so the blur would paint as a hard-edged rectangle across the whole carousel. The more
-     opaque background stands in for it. */
   background: var(--card-bg);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  box-shadow: var(--card-glow), inset 0 1px 0 var(--glass-hi);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .skill-card:hover { transform: translateY(-6px); box-shadow: var(--card-glow), 0 0 30px rgba(111, 155, 255, 0.3), inset 0 1px 0 var(--glass-hi); }
@@ -617,6 +669,8 @@ a { color: inherit; text-decoration: none; }
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  /* --reveal-delay escalona los elementos que entran juntos (ver .services-grid). */
+  transition-delay: var(--reveal-delay, 0s);
 }
 .reveal.visible { opacity: 1; transform: none; }
 
@@ -626,6 +680,9 @@ a { color: inherit; text-decoration: none; }
   .shine, .cd-frames, .spark, .marquee-track, .carousel-track { animation: none; }
   /* Sin movimiento: el hero vuelve a ser una sección normal, sin escenario ni zoom. */
   .hero-stage { height: auto; margin-top: 0; }
+  .services-stage { height: auto; }
+  .services-sticky { position: static; height: auto; }
+  .services-viewport { overflow: visible; }
   .hero-sticky { position: static; height: auto; overflow: visible; padding-block: 60px; }
   .cd-stage { transform: none; }
 }

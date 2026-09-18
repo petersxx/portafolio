@@ -225,6 +225,83 @@ if (cdReduceMotion) {
   measureCd();
 }
 
+// Servicios: mismo recurso que el hero. La rejilla queda pegada a la pantalla mientras
+// se recorre un tramo largo, y cuanto más se baja, más tarjetas aparecen (una por una).
+// Si la rejilla no entra entera (mobile), además se desliza dentro de su ventana para
+// que la tarjeta que está entrando quede centrada.
+const srvStage = document.querySelector(".services-stage");
+const srvSticky = document.querySelector(".services-sticky");
+const srvViewport = document.querySelector(".services-viewport");
+const srvGrid = document.querySelector(".services-grid");
+const srvSlots = [...srvGrid.querySelectorAll(".service-slot")];
+// Cuánto del tramo de cada tarjeta dura su aparición (menos de 1 = se solapan un poco).
+const SRV_SPAN = 0.7;
+// Tramo final del escenario con la rejilla ya completa, antes de que se despegue.
+const SRV_HOLD = 0.15;
+let srvTop = 0;
+let srvTravel = 1;
+let srvCenters = [];
+let srvGridH = 0;
+let srvPanelH = 0;
+let srvRaf = null;
+let srvStaged = false;
+
+function renderSrv() {
+  // Progreso del escenario leído de la posición de la caja pegajosa: 0 al llegar, 1 al final.
+  const p = clamp01((srvTop - srvStage.getBoundingClientRect().top) / srvTravel);
+  const step = 1 / srvSlots.length;
+  srvSlots.forEach((slot, i) => {
+    slot.style.setProperty("--t", smoothstep(i * step, (i + SRV_SPAN) * step, p).toFixed(3));
+  });
+
+  let shift;
+  if (srvGridH <= srvPanelH) {
+    // Entra entera: queda centrada en la ventana y no se mueve.
+    shift = (srvPanelH - srvGridH) / 2;
+  } else {
+    // No entra: la rejilla se desliza para centrar la tarjeta que está apareciendo.
+    const pos = Math.min(srvSlots.length - 1, Math.max(0, p / step - SRV_SPAN / 2));
+    const from = srvCenters[Math.floor(pos)];
+    const to = srvCenters[Math.min(srvSlots.length - 1, Math.floor(pos) + 1)];
+    const center = from + (to - from) * (pos - Math.floor(pos));
+    shift = Math.min(0, Math.max(srvPanelH - srvGridH, srvPanelH / 2 - center));
+  }
+  srvGrid.style.transform = `translateY(${shift.toFixed(1)}px)`;
+}
+
+function requestSrv() {
+  if (!srvStaged || srvRaf !== null) return;
+  srvRaf = requestAnimationFrame(() => {
+    srvRaf = null;
+    renderSrv();
+  });
+}
+
+function measureSrv() {
+  srvStaged = !cdReduceMotion;
+  srvGrid.classList.toggle("is-staged", srvStaged);
+  if (!srvStaged) {
+    // Sin escenario mandan las apariciones sueltas de .reveal.
+    srvSlots.forEach((slot) => slot.style.removeProperty("--t"));
+    srvGrid.style.removeProperty("transform");
+    srvViewport.classList.remove("is-windowed");
+    return;
+  }
+  srvTop = parseFloat(getComputedStyle(srvSticky).top) || 0;
+  srvTravel = Math.max(1, (srvStage.offsetHeight - srvSticky.offsetHeight) * (1 - SRV_HOLD));
+  srvPanelH = srvViewport.clientHeight;
+  // Alto real de la rejilla: con el transform puesto, offsetHeight sigue siendo el de layout.
+  srvGridH = srvGrid.offsetHeight;
+  srvCenters = srvSlots.map((slot) => slot.offsetTop - srvGrid.offsetTop + slot.offsetHeight / 2);
+  srvViewport.classList.toggle("is-windowed", srvGridH > srvPanelH);
+  renderSrv();
+}
+
+window.addEventListener("scroll", requestSrv, { passive: true });
+window.addEventListener("resize", measureSrv);
+window.addEventListener("load", measureSrv);
+measureSrv();
+
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(e.target);
