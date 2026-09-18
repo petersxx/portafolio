@@ -26,11 +26,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
-  <!-- Aplica el tema guardado antes de pintar, para que no se vea un destello del tema oscuro. -->
+  <!-- Antes de pintar: aplica el tema guardado (sin destello del oscuro) y marca que hay JS,
+       lo único que habilita a esconder los elementos .reveal hasta que entran en pantalla.
+       Si js/main.js no llega a arrancar (bloqueado, error en un navegador viejo), a los 3 s
+       se quita la marca y el contenido se ve igual. Sintaxis ES5 a propósito. -->
   <script>
-    try {
-      if (localStorage.getItem("theme") === "light") document.documentElement.setAttribute("data-theme", "light");
-    } catch {}
+    (function () {
+      var root = document.documentElement;
+      root.className += " js";
+      try {
+        if (localStorage.getItem("theme") === "light") root.setAttribute("data-theme", "light");
+      } catch (e) {}
+      setTimeout(function () {
+        if (!window.revealReady) root.className = root.className.replace(/(^|\s)js(\s|$)/, " ");
+      }, 3000);
+    })();
   </script>
 </head>
 <body>
@@ -94,9 +104,9 @@
           <div class="hero-visual reveal" aria-hidden="true">
             <div class="cd-stage">
               <div class="cd-frames">
-                <img src="assets/img/cd-1.webp" alt="" width="1040" height="1040" decoding="async" class="is-active">
-                <img src="assets/img/cd-2.webp" alt="" width="1040" height="1040" decoding="async">
-                <img src="assets/img/cd-3.webp" alt="" width="1040" height="1040" decoding="async">
+                <picture><source srcset="assets/img/cd-1.webp" type="image/webp"><img src="assets/img/cd-1.png" alt="" width="1040" height="1040" decoding="async" class="is-active"></picture>
+                <picture><source srcset="assets/img/cd-2.webp" type="image/webp"><img src="assets/img/cd-2.png" alt="" width="1040" height="1040" decoding="async"></picture>
+                <picture><source srcset="assets/img/cd-3.webp" type="image/webp"><img src="assets/img/cd-3.png" alt="" width="1040" height="1040" decoding="async"></picture>
               </div>
             </div>
             <div class="hero-sparks">
@@ -129,15 +139,15 @@
         </p>
         <div class="stats">
           <div class="stat">
-            <strong class="chrome-text" id="statProjects">0</strong>
+            <strong class="chrome-text" id="statProjects">15+</strong>
             <span>Proyectos</span>
           </div>
           <div class="stat">
-            <strong class="chrome-text" id="statYears">0</strong>
+            <strong class="chrome-text" id="statYears">3+</strong>
             <span>Años</span>
           </div>
           <div class="stat">
-            <strong class="chrome-text" id="statTech">0</strong>
+            <strong class="chrome-text" id="statTech">12+</strong>
             <span>Tecnologías</span>
           </div>
         </div>

@@ -16,7 +16,7 @@ function applyTheme(theme) {
 function getStoredTheme() {
   try {
     return localStorage.getItem("theme");
-  } catch {
+  } catch (e) {
     return null;
   }
 }
@@ -28,7 +28,7 @@ themeToggle.addEventListener("click", () => {
   applyTheme(next);
   try {
     localStorage.setItem("theme", next);
-  } catch {}
+  } catch (e) {}
 });
 
 navToggle.addEventListener("click", () => {
@@ -62,24 +62,34 @@ function animateCount(el, target) {
 
 let statsAnimated = false;
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("visible");
-      if (!statsAnimated && entry.target.querySelector(".stats")) {
-        statsAnimated = true;
-        Object.entries(STATS).forEach(([id, value]) => {
-          animateCount(document.getElementById(id), value);
-        });
-      }
-      revealObserver.unobserve(entry.target);
+function reveal(el) {
+  el.classList.add("visible");
+  if (!statsAnimated && el.querySelector(".stats")) {
+    statsAnimated = true;
+    Object.entries(STATS).forEach(([id, value]) => {
+      animateCount(document.getElementById(id), value);
     });
-  },
-  { threshold: 0.15 }
-);
+  }
+}
 
-document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+// Navegadores sin IntersectionObserver: todo se muestra de una.
+const hasIO = "IntersectionObserver" in window;
+const revealObserver = hasIO
+  ? new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          reveal(entry.target);
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 }
+    )
+  : null;
+
+document.querySelectorAll(".reveal").forEach((el) => (hasIO ? revealObserver.observe(el) : reveal(el)));
+// Avisa al script del <head> que las apariciones arrancaron (si no, desoculta todo).
+window.revealReady = true;
 
 const sections = document.querySelectorAll("main section[id]");
 const linkById = {};
@@ -87,18 +97,21 @@ navLinks.querySelectorAll("a").forEach((a) => {
   linkById[a.getAttribute("href").slice(1)] = a;
 });
 
-const activeObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      Object.values(linkById).forEach((a) => a.classList.remove("active"));
-      linkById[entry.target.id]?.classList.add("active");
-    });
-  },
-  { rootMargin: "-45% 0px -50% 0px" }
-);
+if (hasIO) {
+  const activeObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        Object.values(linkById).forEach((a) => a.classList.remove("active"));
+        const link = linkById[entry.target.id];
+        if (link) link.classList.add("active");
+      });
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
 
-sections.forEach((s) => activeObserver.observe(s));
+  sections.forEach((s) => activeObserver.observe(s));
+}
 
 // Hero: escenario de scroll. El CD gira sobre su eje (y va cambiando de cuadro como
 // una moneda) mientras crece desde su lugar del hero hasta ocupar toda la pantalla.

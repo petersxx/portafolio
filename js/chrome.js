@@ -9,7 +9,14 @@
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Liquid chrome is smooth, so rendering below CSS resolution is invisible and keeps the GPU cool.
-  const RENDER_SCALE = 0.66;
+  // Weak GPUs step down to the lower scale, and if that is still too slow the animation freezes.
+  const RENDER_SCALES = [0.66, 0.4];
+  let scaleLevel = 0;
+  // A frame slower than this (ms, median over a sample) counts as the GPU not keeping up.
+  const SLOW_FRAME = 34;
+  const SAMPLE = 90;
+  let frames = [];
+  let frozen = false;
 
   const VERT = `
     attribute vec2 a_pos;
@@ -17,7 +24,11 @@
   `;
 
   const FRAG = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
+    #else
+    precision mediump float;
+    #endif
     uniform vec2 u_res;
     uniform float u_time;
     uniform vec2 u_mouse;
@@ -139,14 +150,15 @@
   const t0 = performance.now();
 
   function resize() {
-    canvas.width = Math.max(1, Math.floor(window.innerWidth * RENDER_SCALE));
-    canvas.height = Math.max(1, Math.floor(window.innerHeight * RENDER_SCALE));
+    const scale = RENDER_SCALES[scaleLevel];
+    canvas.width = Math.max(1, Math.floor(window.innerWidth * scale));
+    canvas.height = Math.max(1, Math.floor(window.innerHeight * scale));
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
 
   function render(time) {
     const target = isLight() ? 1 : 0;
-    light += (target - light) * (reduceMotion ? 1 : 0.06);
+    light += (target - light) * (reduceMotion || frozen ? 1 : 0.06);
     mouse.x += (mouse.tx - mouse.x) * 0.04;
     mouse.y += (mouse.ty - mouse.y) * 0.04;
 
@@ -157,16 +169,37 @@
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
-  function loop() {
+  let lastFrame = 0;
+
+  // Watches frame times; steps the resolution down, then freezes, if the GPU can't keep up.
+  function checkSpeed(now) {
+    if (lastFrame) frames.push(now - lastFrame);
+    lastFrame = now;
+    if (frames.length < SAMPLE) return;
+    const median = frames.sort((a, b) => a - b)[frames.length >> 1];
+    frames = [];
+    if (median <= SLOW_FRAME) return;
+    if (scaleLevel < RENDER_SCALES.length - 1) {
+      scaleLevel++;
+      resize();
+    } else {
+      frozen = true;
+    }
+  }
+
+  function loop(now) {
     render((performance.now() - t0) / 1000 + 20);
-    rafId = requestAnimationFrame(loop);
+    checkSpeed(now);
+    rafId = frozen ? null : requestAnimationFrame(loop);
   }
 
   function start() {
-    if (reduceMotion) {
+    lastFrame = 0;
+    frames = [];
+    if (reduceMotion || frozen) {
       render(20);
     } else if (rafId === null) {
-      loop();
+      rafId = requestAnimationFrame(loop);
     }
   }
 
@@ -177,7 +210,15 @@
 
   window.addEventListener("resize", () => {
     resize();
-    if (reduceMotion) render(20);
+    if (reduceMotion || frozen) render(20);
+  });
+
+  // If the browser drops the GL context (GPU reset, too many tabs), fall back to the CSS background.
+  canvas.addEventListener("webglcontextlost", (e) => {
+    e.preventDefault();
+    stop();
+    document.documentElement.classList.add("no-webgl");
+    canvas.remove();
   });
 
   window.addEventListener("pointermove", (e) => {
@@ -189,12 +230,13 @@
     document.hidden ? stop() : start();
   });
 
-  if (reduceMotion) {
-    new MutationObserver(() => render(20)).observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-  }
+  // Without a running loop (reduced motion, or frozen on a slow GPU) redraw on theme changes.
+  new MutationObserver(() => {
+    if (reduceMotion || frozen) render(20);
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
 
   resize();
   start();

@@ -137,6 +137,8 @@ recomienda `python3 -m http.server 8000`).
   27. (2026-09-18) Mobile vuelve a tener todas las animaciones de
       escritorio, con ajustes de layout y rendimiento
   28. (2026-09-18) Tarjetas de Servicios estáticas en mobile
+  29. (2026-09-18) Compatibilidad con navegadores viejos y equipos
+      con GPU débil (contenido visible sin JS, respaldos CSS/PNG)
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -202,6 +204,39 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Compatibilidad con más navegadores y computadoras
+    - Pedido: el sitio no funcionaba en algunas computadoras.
+    - Contenido visible siempre: antes todos los .reveal arrancaban
+      con opacidad 0 y solo JS los mostraba; si main.js no corría
+      (navegador viejo, bloqueador, error) la página quedaba casi
+      en blanco. Ahora solo se esconden con la clase .js (la pone
+      un script ES5 en el <head>), y si main.js no avisa que
+      arrancó (window.revealReady) en 3 s, se quita la clase y se
+      ve todo. Las estadísticas traen el número real en el HTML.
+    - JS: se sacaron `?.` y `catch {}` (rompían todo main.js en
+      Safari < 13.1 / Chrome < 80). Sin IntersectionObserver, todo
+      se muestra de una y el menú no marca la sección activa.
+    - CD: <picture> con WebP y respaldo PNG (720px) para Safari sin
+      WebP (Macs anteriores a Big Sur). Los navegadores actuales
+      siguen bajando el WebP.
+    - CSS: inset y las propiedades lógicas (padding-inline, etc.)
+      pasaron a top/right/bottom/left; position: -webkit-sticky;
+      respaldo de overflow para `clip`; respaldo de aspect-ratio
+      (Safari < 15) para que la caja del CD no quede en 0 de alto.
+    - Fondo WebGL (js/chrome.js): usa mediump si la GPU no tiene
+      highp; si se pierde el contexto pasa al fondo CSS; y mide la
+      velocidad: si la mediana supera 34 ms por cuadro baja la
+      resolución (0.66 → 0.4) y si sigue lento congela la
+      animación en un cuadro fijo (el cambio de tema se sigue
+      viendo).
+    - Probado en Chrome headless: normal, sin JS, main.js
+      bloqueado, sin IntersectionObserver, sin WebGL, sin WebP y
+      CPU 20× más lenta, sin errores; mobile y escritorio se ven
+      igual que antes. Safari y Firefox reales no se probaron.
+    - Archivos: index.html, css/styles.css, js/main.js,
+      js/chrome.js, assets/img/cd-1.png, cd-2.png, cd-3.png
+      (nuevos), DOCUMENTACION.txt
 
   [2026-09-18] Tarjetas de Servicios estáticas en mobile
     - Pedido: que las tarjetas de Servicios estén estáticas.
