@@ -110,10 +110,8 @@ const heroVisual = document.querySelector(".hero-visual");
 const cdStage = heroVisual.querySelector(".cd-stage");
 const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
 const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-// En mobile los escenarios de scroll se ven trabados: ahí el hero y Servicios son
-// secciones normales. Mismo corte que el @media de css/styles.css.
-const mobileQuery = window.matchMedia("(max-width: 720px)");
-const stagesOn = () => !cdReduceMotion && !mobileQuery.matches;
+// Sin movimiento no se montan los escenarios: el hero y Servicios son secciones normales.
+const stagesOn = () => !cdReduceMotion;
 // Fracción de cada tramo que dura el cambio de cuadro; el resto el cuadro queda quieto.
 const CD_FLIP = 0.6;
 // Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
@@ -217,7 +215,7 @@ function measureCd() {
   const header = document.querySelector(".site-header");
   document.documentElement.style.setProperty("--hdr", `${header.offsetHeight}px`);
   if (!stagesOn()) {
-    // Sin escenario (sin movimiento, o mobile) el CD se queda quieto en su primer cuadro.
+    // Sin escenario (sin movimiento) el CD se queda quieto en su primer cuadro.
     resetCd();
     return;
   }
@@ -299,7 +297,7 @@ function measureSrv() {
   srvStaged = stagesOn();
   srvGrid.classList.toggle("is-staged", srvStaged);
   if (!srvStaged) {
-    // Sin escenario (sin movimiento, o mobile) mandan las apariciones sueltas de .reveal.
+    // Sin escenario (sin movimiento) mandan las apariciones sueltas de .reveal.
     srvSlots.forEach((slot) => slot.style.removeProperty("--t"));
     srvGrid.style.removeProperty("transform");
     srvViewport.classList.remove("is-windowed");

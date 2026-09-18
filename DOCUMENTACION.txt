@@ -134,6 +134,8 @@ recomienda `python3 -m http.server 8000`).
       Servicios) y arreglos de layout en el celular
   25. (2026-09-18) Estrellas SVG arregladas (se veían recortadas)
   26. (2026-09-18) El CD flota en mobile (sin escenario de scroll)
+  27. (2026-09-18) Mobile vuelve a tener todas las animaciones de
+      escritorio, con ajustes de layout y rendimiento
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -199,6 +201,31 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Mobile recupera todas las animaciones de escritorio
+    - Pedido: tener en mobile las mismas animaciones que en
+      escritorio. Vuelven el escenario del CD (gira, cambia de
+      cuadro y crece hasta llenar la pantalla) y el de Servicios
+      (las tarjetas entran de a una y la columna se desliza).
+      Esto revierte el apagado del 2026-09-18.
+    - js/main.js: stagesOn() solo depende de "reducir movimiento".
+    - css/styles.css: el bloque que apaga los escenarios vuelve a
+      aplicar solo con "reducir movimiento".
+    - Para que no vuelva el problema del navbar tapando el título:
+      en mobile el hero arranca en --hdr + 22px (el header flota a
+      10px del borde y antes no se contaba) y usa
+      "align-items: safe center", así que si el contenido no entra
+      se alinea arriba en vez de meterse debajo del navbar. El CD
+      pasa a min(300px, 26svh) y los botones del hero tienen menos
+      relleno lateral para entrar en una fila.
+    - Para que se trabe menos: en mobile el CD usa una sombra fija.
+      La de escritorio depende de --cd-scale y obliga a redibujar
+      la imagen en cada cuadro del zoom.
+    - Probado a 384px (alto 820 y 700) y con la letra al 115%.
+      Medición en Chrome headless con CPU 4× más lenta: 16,7 ms por
+      cuadro en el hero y Servicios. Ese entorno no reproduce la
+      GPU del celular: hay que confirmar la fluidez en el teléfono.
+    - Archivos: css/styles.css, js/main.js, DOCUMENTACION.txt
 
   [2026-09-18] El CD vuelve a flotar en mobile
     - Pedido: que en mobile el disco tenga el efecto de flotar.
