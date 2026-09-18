@@ -132,6 +132,7 @@ recomienda `python3 -m http.server 8000`).
       vista previa al compartir (Open Graph + imagen)
   24. (2026-09-18) Mobile sin animaciones de scroll (CD y
       Servicios) y arreglos de layout en el celular
+  25. (2026-09-18) Estrellas SVG arregladas (se veían recortadas)
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -171,12 +172,6 @@ la pena resolver o decidir:
     Advisory"). Si no son propias o con licencia, conviene
     reemplazarlas por un diseño propio. Por eso la imagen para
     compartir usa la estrella de la marca y no el CD.
-  - Las estrellas SVG (botón de tema, tarjetas de Servicios,
-    destellos del hero) se ven como una esquinita: los <svg> usan
-    viewBox="-50 -50 100 100" pero el <symbol> ya trae su propio
-    viewBox, así que la estrella queda corrida. Se arregla con
-    viewBox="0 0 100 100" en esos <svg>. Afecta también al
-    escritorio.
   - El logo/marca es solo texto ("Main Technologies") con efecto
     "chrome-text"; no hay isotipo/logo gráfico propio más allá de
     la estrella genérica.
@@ -203,6 +198,18 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Estrellas SVG arregladas
+    - Las estrellas del botón de tema, de las tarjetas de Servicios
+      y los destellos del hero se veían como una esquinita, en
+      mobile y en escritorio.
+    - Causa: esos <svg> usaban viewBox="-50 -50 100 100", pero el
+      <symbol id="star"> que dibujan ya trae su propio viewBox; el
+      <use> lo coloca en (0,0), así que la estrella quedaba corrida
+      al cuadrante de abajo a la derecha y recortada.
+    - Solución: viewBox="0 0 100 100" en los 13 <svg> que usan la
+      estrella. El <symbol> y el favicon no cambian.
+    - Archivos: index.html, DOCUMENTACION.txt
 
   [2026-09-18] Versión mobile simplificada y arreglos de layout
     - Pedido: en el celular (Samsung A57) el navbar tapaba el
