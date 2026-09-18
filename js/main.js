@@ -110,6 +110,10 @@ const heroVisual = document.querySelector(".hero-visual");
 const cdStage = heroVisual.querySelector(".cd-stage");
 const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
 const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// En mobile los escenarios de scroll se ven trabados: ahí el hero y Servicios son
+// secciones normales. Mismo corte que el @media de css/styles.css.
+const mobileQuery = window.matchMedia("(max-width: 720px)");
+const stagesOn = () => !cdReduceMotion && !mobileQuery.matches;
 // Fracción de cada tramo que dura el cambio de cuadro; el resto el cuadro queda quieto.
 const CD_FLIP = 0.6;
 // Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
@@ -150,12 +154,8 @@ function renderCd(p) {
     img.style.opacity = i === showing ? 1 : 0;
     if (i !== showing) return;
     const turn = i === seg ? angle : angle - 180;
-    img.style.transform = cdReduceMotion
-      ? ""
-      : `perspective(1400px) rotateY(${turn.toFixed(2)}deg) rotate(${spin}deg)`;
+    img.style.transform = `perspective(1400px) rotateY(${turn.toFixed(2)}deg) rotate(${spin}deg)`;
   });
-
-  if (cdReduceMotion) return;
 
   // Crecimiento: el CD se va corriendo al centro de la pantalla y escala hasta llenarla.
   const rect = heroVisual.getBoundingClientRect();
@@ -186,6 +186,20 @@ function renderCd(p) {
   }
 }
 
+// Deja el CD quieto en su primer cuadro y le devuelve el control al CSS.
+function resetCd() {
+  if (cdRaf !== null) cancelAnimationFrame(cdRaf);
+  cdRaf = null;
+  cdPos = null;
+  cdFrames.forEach((img, i) => {
+    img.style.opacity = i === 0 ? 1 : 0;
+    img.style.removeProperty("transform");
+  });
+  ["--cd-x", "--cd-y", "--cd-scale", "--cd-bob"].forEach((v) => cdStage.style.removeProperty(v));
+  heroVisual.style.removeProperty("--cd-aux");
+  ["opacity", "transform", "transition"].forEach((v) => heroText.style.removeProperty(v));
+}
+
 function stepCd() {
   const target = cdTarget();
   cdPos += (target - cdPos) * CD_EASE;
@@ -202,6 +216,11 @@ function measureCd() {
   // El escenario se mete debajo del header, así que el CSS necesita su alto real.
   const header = document.querySelector(".site-header");
   document.documentElement.style.setProperty("--hdr", `${header.offsetHeight}px`);
+  if (!stagesOn()) {
+    // Sin escenario (sin movimiento, o mobile) el CD se queda quieto en su primer cuadro.
+    resetCd();
+    return;
+  }
   cdScrollStart = heroStage.getBoundingClientRect().top + window.scrollY;
   // Recorrido útil: el alto del escenario menos la pantalla fija, dejando un tramo
   // final (CD_HOLD) en el que el CD ya está a pantalla completa.
@@ -216,18 +235,13 @@ function measureCd() {
 }
 
 function requestCd() {
-  if (cdRaf === null) cdRaf = requestAnimationFrame(stepCd);
+  if (cdPos !== null && cdRaf === null) cdRaf = requestAnimationFrame(stepCd);
 }
 
-if (cdReduceMotion) {
-  // Sin movimiento no hay escenario: el CD se queda quieto en su primer cuadro.
-  renderCd(0);
-} else {
-  window.addEventListener("scroll", requestCd, { passive: true });
-  window.addEventListener("resize", measureCd);
-  window.addEventListener("load", measureCd);
-  measureCd();
-}
+window.addEventListener("scroll", requestCd, { passive: true });
+window.addEventListener("resize", measureCd);
+window.addEventListener("load", measureCd);
+measureCd();
 
 // Servicios: mismo recurso que el hero. La rejilla queda pegada a la pantalla mientras
 // se recorre un tramo largo, y cuanto más se baja, más tarjetas aparecen (una por una).
@@ -282,10 +296,10 @@ function requestSrv() {
 }
 
 function measureSrv() {
-  srvStaged = !cdReduceMotion;
+  srvStaged = stagesOn();
   srvGrid.classList.toggle("is-staged", srvStaged);
   if (!srvStaged) {
-    // Sin escenario mandan las apariciones sueltas de .reveal.
+    // Sin escenario (sin movimiento, o mobile) mandan las apariciones sueltas de .reveal.
     srvSlots.forEach((slot) => slot.style.removeProperty("--t"));
     srvGrid.style.removeProperty("transform");
     srvViewport.classList.remove("is-windowed");

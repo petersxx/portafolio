@@ -130,6 +130,8 @@ recomienda `python3 -m http.server 8000`).
       destello del tema y limpieza de CSS
   23. (2026-09-18) Dominio oficial (maintechnologies.dev) y
       vista previa al compartir (Open Graph + imagen)
+  24. (2026-09-18) Mobile sin animaciones de scroll (CD y
+      Servicios) y arreglos de layout en el celular
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -169,6 +171,12 @@ la pena resolver o decidir:
     Advisory"). Si no son propias o con licencia, conviene
     reemplazarlas por un diseño propio. Por eso la imagen para
     compartir usa la estrella de la marca y no el CD.
+  - Las estrellas SVG (botón de tema, tarjetas de Servicios,
+    destellos del hero) se ven como una esquinita: los <svg> usan
+    viewBox="-50 -50 100 100" pero el <symbol> ya trae su propio
+    viewBox, así que la estrella queda corrida. Se arregla con
+    viewBox="0 0 100 100" en esos <svg>. Afecta también al
+    escritorio.
   - El logo/marca es solo texto ("Main Technologies") con efecto
     "chrome-text"; no hay isotipo/logo gráfico propio más allá de
     la estrella genérica.
@@ -195,6 +203,38 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Versión mobile simplificada y arreglos de layout
+    - Pedido: en el celular (Samsung A57) el navbar tapaba el
+      título del hero, "Construimos" se salía de la pantalla, las
+      etiquetas de las estadísticas se salían de sus cuadros, y
+      las animaciones de scroll (CD y Servicios) se veían
+      trabadas. Todo se cambió solo en mobile (hasta 720px); el
+      escritorio queda igual.
+    - En mobile ya no hay escenarios de scroll: el hero y Servicios
+      son secciones normales (el mismo modo que "reducir
+      movimiento"). El CD queda quieto en su primer cuadro, sin
+      giro, zoom ni flotado, y las tarjetas de Servicios aparecen
+      solas al bajar, como el resto de la página.
+    - js/main.js: stagesOn() (sin "reducir movimiento" y fuera de
+      mobile) decide si se montan los escenarios; si la ventana
+      cruza los 720px se desmontan o se vuelven a montar
+      (resetCd() devuelve el CD al CSS).
+    - css/styles.css: las reglas que apagan los escenarios se
+      comparten entre "reducir movimiento" y (max-width: 720px).
+    - Hero en mobile: arranca debajo del header (antes se metía
+      por debajo) y el título se dimensiona con el ancho de la
+      pantalla (min(8.6vw, 2.3rem)).
+    - Estadísticas en mobile: número y etiqueta con tamaños atados
+      al ancho y menos tracking, para que entren incluso con la
+      letra del celular agrandada.
+    - Navbar en mobile: fondo más opaco (--card-bg), para que el
+      texto que pasa por detrás no se lea a través.
+    - Secciones: scroll-margin-top en mobile, así al saltar desde
+      el menú el título no queda pegado al navbar.
+    - Probado a 384px y a 360px con la letra al 125%, y en
+      escritorio (1400px) para confirmar que no cambió.
+    - Archivos: css/styles.css, js/main.js, DOCUMENTACION.txt
 
   [2026-09-18] Dominio oficial y vista previa al compartir
     - URL oficial del sitio: https://maintechnologies.dev

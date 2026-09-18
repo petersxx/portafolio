@@ -669,13 +669,19 @@ a { color: inherit; text-decoration: none; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .shine, .cd-frames, .spark, .marquee-track, .carousel-track { animation: none; }
-  /* Sin movimiento: el hero vuelve a ser una sección normal, sin escenario ni zoom. */
+}
+
+/* Sin movimiento, y siempre en mobile (donde el escenario se ve trabado): el hero y
+   Servicios vuelven a ser secciones normales, sin escenario ni zoom, y el CD queda
+   quieto. js/main.js usa el mismo corte (MOBILE_QUERY) para no montar los escenarios. */
+@media (prefers-reduced-motion: reduce), (max-width: 720px) {
   .hero-stage { height: auto; margin-top: 0; }
   .services-stage { height: auto; }
   .services-sticky { position: static; height: auto; }
   .services-viewport { overflow: visible; }
   .hero-sticky { position: static; height: auto; overflow: visible; padding-block: 60px; }
-  .cd-stage { transform: none; }
+  .cd-stage { transform: none; will-change: auto; }
+  .cd-frames { animation: none; }
 }
 
 /* Responsive */
@@ -734,7 +740,20 @@ a { color: inherit; text-decoration: none; }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .section { padding-block: 70px; }
+  /* Al saltar desde el menú, el título no queda debajo del navbar flotante. */
+  .section { scroll-margin-top: 24px; }
+  /* El hero ya no se mete debajo del header: arranca justo después. */
+  .hero-sticky { padding-block: 28px 56px; }
+  /* Atado al ancho (vw) y no a rem: si el celular tiene la letra agrandada, la palabra
+     más larga ("Construimos") igual entra en la pantalla. */
+  .hero h1 { font-size: min(8.6vw, 2.3rem); }
+  /* Más opaco que el vidrio general: el texto que pasa por detrás no se lee a través. */
+  .nav { background: var(--card-bg); }
   .stats { gap: 8px; }
-  .stat strong { font-size: 1.7rem; }
+  .stat { padding: 16px 4px; }
+  /* Las etiquetas en mono son más anchas que el cuadro con el tracking de escritorio.
+     Los tamaños van atados al ancho por el mismo motivo que el título del hero. */
+  .stat strong { font-size: min(6.4vw, 1.5rem); }
+  .stat span { font-size: min(2.6vw, 0.6rem); letter-spacing: 0.02em; }
   .contact-form { padding: 22px; }
 }
