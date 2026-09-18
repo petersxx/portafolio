@@ -125,6 +125,9 @@ recomienda `python3 -m http.server 8000`).
       apareciendo de a una
   21. (2026-09-17) El escenario de Servicios también corre en
       mobile: la columna se desliza dentro del panel fijo
+  22. (2026-09-18) Revisión del proyecto: sin datos sensibles
+      expuestos; arreglos de accesibilidad del menú mobile, del
+      destello del tema y limpieza de CSS
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -142,9 +145,6 @@ la pena resolver o decidir:
     js/main.js (STATS) — confirmar que sean los números reales.
   - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
     clientes, faltaría cargarlos.
-  - El comentario en js/main.js ("Cambiá este email...") quedó
-    desactualizado: ya no se envía por email, se envía por
-    WhatsApp — conviene limpiar el comentario.
   - No hay meta tags de Open Graph / Twitter Card (og:image,
     og:title, etc.) para que se vea bien al compartir el link en
     redes o WhatsApp.
@@ -165,10 +165,10 @@ la pena resolver o decidir:
     acorde.
   - No hay tests, ni linter, ni CI configurado (razonable para un
     sitio estático de este tamaño, pero queda anotado).
-  - README.md sigue mencionando GitHub Pages como opción de
-    publicación, pero el despliegue real actual parece ser Vercel
-    (existe .vercel/project.json) — podría actualizarse el README
-    para reflejar el método de deploy vigente.
+  - El CD del hero se ve pixelado al llenar la pantalla: las
+    imágenes miden 1040px y el zoom final las estira ~4× en una
+    pantalla de 1920px. Opciones: exportar un cuadro final más
+    grande o limitar el zoom máximo.
   - El logo/marca es solo texto ("Main Technologies") con efecto
     "chrome-text"; no hay isotipo/logo gráfico propio más allá de
     la estrella genérica.
@@ -195,6 +195,29 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Arreglos de la revisión del proyecto
+    - Menú mobile: cerrado, sus links ya no se pueden alcanzar con
+      Tab (antes quedaban invisibles pero enfocables). Se usa
+      visibility, aplicada al terminar el fundido de cierre.
+    - Tema: el tema guardado se aplica con un script chico en el
+      <head>, antes de pintar. Antes, quien eligió el tema claro
+      veía un destello del oscuro al cargar.
+    - Estadísticas de "Nosotros": con "reducir movimiento"
+      activado muestran el número final directo, sin contar.
+    - Se corrigió el comentario de WHATSAPP_NUMBER en js/main.js
+      (hablaba de un email).
+    - CSS: la cinta de tecnologías era lo único que usaba el
+      carrusel, así que se unieron las reglas base con las del
+      modificador .carousel--tags (se sacó la clase del HTML). El
+      resultado visual es el mismo.
+    - Comentarios aclaratorios: el respaldo de 260px de
+      .hero-visual y la relación entre el inset de .cd-stage y
+      CD_INSET en js/main.js.
+    - README.md: la sección de publicación ahora explica el deploy
+      en Vercel en lugar de GitHub Pages.
+    - Archivos: index.html, css/styles.css, js/main.js, README.md,
+      DOCUMENTACION.txt
 
   [2026-09-18] Revisión de datos sensibles
     - Se revisaron los archivos locales y todo el historial de git

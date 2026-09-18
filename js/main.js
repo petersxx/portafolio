@@ -1,4 +1,4 @@
-// Cambiá este email por el que quieras que reciba los mensajes del formulario.
+// Número de WhatsApp que recibe los mensajes del formulario (con código de país, sin + ni espacios).
 const WHATSAPP_NUMBER = "595991230966";
 
 const STATS = { statProjects: 15, statYears: 3, statTech: 12 };
@@ -46,6 +46,10 @@ navLinks.querySelectorAll("a").forEach((link) => {
 });
 
 function animateCount(el, target) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = `${target}+`;
+    return;
+  }
   const duration = 1200;
   const start = performance.now();
   function tick(now) {

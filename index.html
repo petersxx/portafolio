@@ -10,6 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Aplica el tema guardado antes de pintar, para que no se vea un destello del tema oscuro. -->
+  <script>
+    try {
+      if (localStorage.getItem("theme") === "light") document.documentElement.setAttribute("data-theme", "light");
+    } catch {}
+  </script>
 </head>
 <body>
   <svg class="sprite" aria-hidden="true" focusable="false">
@@ -176,7 +182,7 @@
         </div>
       </div>
       <p class="stack-label reveal">Tecnologías que usamos</p>
-      <div class="carousel carousel--tags reveal" role="region" aria-roledescription="carrusel" aria-label="Tecnologías que usamos">
+      <div class="carousel reveal" role="region" aria-roledescription="carrusel" aria-label="Tecnologías que usamos">
         <div class="carousel-track">
           <div class="carousel-group tags">
             <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Node.js</span><span>Express</span>

@@ -321,6 +321,7 @@ a { color: inherit; text-decoration: none; }
 /* Caja que js/main.js mueve y agranda con el scroll (--cd-x/--cd-y/--cd-scale). */
 .cd-stage {
   position: absolute;
+  /* Si cambia este inset, actualizar CD_INSET en js/main.js (1 - 2 × inset). */
   inset: 6%;
   transform: translate3d(var(--cd-x, 0px), var(--cd-y, 0px), 0) scale(var(--cd-scale, 1));
   will-change: transform;
@@ -464,10 +465,8 @@ a { color: inherit; text-decoration: none; }
 
 /* Continuous marquee-style loop (tech tags): the track holds two identical groups back to back and scrolls exactly one group-width (-50%), so the loop point is invisible. */
 .carousel {
-  /* The vertical padding (cancelled out by the negative margins) enlarges the mask area, since the
-     mask clips to this box and would otherwise cut the card glow off in a straight line. */
-  margin: -40px -20px -60px;
-  padding: 60px 20px;
+  margin: 0 -20px;
+  padding: 0 20px;
   /* Only the loop seam needs clipping. `clip` (not `hidden`) is what keeps the other axis truly
      visible — `hidden` forces it to `auto`, which clips too. */
   overflow-x: clip;
@@ -478,24 +477,16 @@ a { color: inherit; text-decoration: none; }
 .carousel-track {
   display: flex;
   width: max-content;
-  padding-block: 24px;
-  animation: carousel-scroll 34s linear infinite;
+  /* Reversed so it runs against the top marquee. */
+  animation: carousel-scroll 40s linear infinite reverse;
 }
 .carousel:hover .carousel-track,
 .carousel:focus-within .carousel-track { animation-play-state: paused; }
 /* The trailing padding belongs to the group, not the track: -50% is then exactly one group wide,
-   which is what keeps the seam invisible. A gap on the track instead would leave it half a gap short. */
-.carousel-group { display: flex; gap: 20px; padding-right: 20px; }
+   which is what keeps the seam invisible. A gap on the track instead would leave it half a gap short.
+   The descendant selector outranks .tags, which would otherwise let the row wrap. */
+.carousel .carousel-group { display: flex; flex-wrap: nowrap; gap: 8px; padding-right: 8px; }
 @keyframes carousel-scroll { to { transform: translateX(-50%); } }
-
-/* Same marquee, reversed, for the tech tags. */
-.carousel--tags { margin: 0 -20px; padding: 0 20px; }
-.carousel--tags .carousel-track {
-  padding-block: 0;
-  animation-duration: 40s;
-  animation-direction: reverse;
-}
-.carousel--tags .carousel-group { flex-wrap: nowrap; gap: 8px; padding-right: 8px; }
 
 /* Rejilla de servicios. Por defecto cada tarjeta entra sola con el scroll (.reveal);
    donde la rejilla completa entra en pantalla, manda el escenario de más abajo. */
@@ -694,6 +685,7 @@ a { color: inherit; text-decoration: none; }
   .hero-stage { --cd-zoom: 140vh; }
   .hero h1 { margin-bottom: 14px; }
   .hero-sub { font-size: 1.02rem; margin-bottom: 22px; }
+  /* 260px es el respaldo para navegadores sin svh; los demás usan la segunda línea. */
   .hero-visual { max-width: 260px; margin-inline: auto; }
   .hero-visual { max-width: min(300px, 30svh); }
   .about-grid { grid-template-columns: minmax(0, 1fr); padding: 26px; }
@@ -719,7 +711,10 @@ a { color: inherit; text-decoration: none; }
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    /* visibility saca los links del orden de tabulación mientras el menú está cerrado;
+       se aplica al final del cierre para no cortar el fundido. */
+    visibility: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
   }
   .nav-links::before {
     content: "";
@@ -733,7 +728,7 @@ a { color: inherit; text-decoration: none; }
     mask-composite: exclude;
     pointer-events: none;
   }
-  .nav-links.open { max-height: 340px; opacity: 1; }
+  .nav-links.open { max-height: 340px; opacity: 1; visibility: visible; transition-delay: 0s; }
   .nav-links a { display: block; padding: 14px 22px; }
   .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }

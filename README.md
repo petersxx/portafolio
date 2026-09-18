@@ -37,7 +37,7 @@ y entrá a http://localhost:8000
 - **Estadísticas:** ajustá los números en `STATS` dentro de `js/main.js`.
 - **Colores:** modificá las variables CSS en `:root` de `css/styles.css`.
 
-## Publicar con GitHub Pages
+## Publicar
 
-En el repo: **Settings → Pages → Source: Deploy from a branch → `main` / root**.
-El sitio quedará en `https://petersxx.github.io/portafolio/`.
+El sitio está desplegado en Vercel (proyecto `portafolio`). Al ser estático no necesita build:
+desde la carpeta del proyecto, `vercel` publica una vista previa y `vercel --prod` la versión de producción.
