@@ -17,7 +17,7 @@ portafolio/
 ├── css/styles.css  # Estilos
 ├── js/main.js      # Interactividad (menú, tema, animaciones, CD con scroll, formulario)
 ├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
-└── assets/img/     # Cuadros del CD del hero (cambian con el scroll)
+└── assets/img/     # Cuadros del CD del hero e imagen para compartir (og-image.jpg)
 ```
 
 ## Ver en local
@@ -39,5 +39,5 @@ y entrá a http://localhost:8000
 
 ## Publicar
 
-El sitio está desplegado en Vercel (proyecto `portafolio`). Al ser estático no necesita build:
+El sitio está desplegado en Vercel (proyecto `portafolio`) en https://maintechnologies.dev. Al ser estático no necesita build:
 desde la carpeta del proyecto, `vercel` publica una vista previa y `vercel --prod` la versión de producción.

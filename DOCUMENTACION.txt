@@ -128,6 +128,8 @@ recomienda `python3 -m http.server 8000`).
   22. (2026-09-18) Revisión del proyecto: sin datos sensibles
       expuestos; arreglos de accesibilidad del menú mobile, del
       destello del tema y limpieza de CSS
+  23. (2026-09-18) Dominio oficial (maintechnologies.dev) y
+      vista previa al compartir (Open Graph + imagen)
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -145,9 +147,6 @@ la pena resolver o decidir:
     js/main.js (STATS) — confirmar que sean los números reales.
   - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
     clientes, faltaría cargarlos.
-  - No hay meta tags de Open Graph / Twitter Card (og:image,
-    og:title, etc.) para que se vea bien al compartir el link en
-    redes o WhatsApp.
   - No hay favicon como archivo real: se usa un SVG inline como
     data URI. Podría convenir un favicon.ico/png tradicional para
     mejor compatibilidad.
@@ -159,16 +158,17 @@ la pena resolver o decidir:
     servidor: si el usuario no tiene WhatsApp o falla el popup,
     no hay fallback (ej. mailto: o servicio de email tipo
     Formspree).
-  - No se ve dominio propio configurado todavía (aparece
-    desplegado en Vercel con nombre de proyecto "portafolio"); si
-    la marca es "Main Technologies", podría convenir un dominio
-    acorde.
   - No hay tests, ni linter, ni CI configurado (razonable para un
     sitio estático de este tamaño, pero queda anotado).
   - El CD del hero se ve pixelado al llenar la pantalla: las
     imágenes miden 1040px y el zoom final las estira ~4× en una
     pantalla de 1920px. Opciones: exportar un cuadro final más
     grande o limitar el zoom máximo.
+  - Las fotos del CD del hero (assets/img/cd-*.webp) parecen la
+    tapa de un disco comercial (cinta roja, etiqueta "Parental
+    Advisory"). Si no son propias o con licencia, conviene
+    reemplazarlas por un diseño propio. Por eso la imagen para
+    compartir usa la estrella de la marca y no el CD.
   - El logo/marca es solo texto ("Main Technologies") con efecto
     "chrome-text"; no hay isotipo/logo gráfico propio más allá de
     la estrella genérica.
@@ -195,6 +195,19 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Dominio oficial y vista previa al compartir
+    - URL oficial del sitio: https://maintechnologies.dev
+    - index.html: se agregó <link rel="canonical"> y los meta tags
+      de Open Graph y Twitter Card (título, descripción, imagen),
+      para que el link se vea con tarjeta al compartirlo en
+      WhatsApp, redes o Slack.
+    - Nueva imagen assets/img/og-image.jpg (1200×630): fondo oscuro
+      con brillo azul, "Main Technologies" en Unbounded con el
+      degradado cromado del sitio, y la estrella de la marca.
+    - README.md: se agregó el dominio y la imagen nueva.
+    - Archivos: index.html, assets/img/og-image.jpg (nuevo),
+      README.md, DOCUMENTACION.txt
 
   [2026-09-18] Arreglos de la revisión del proyecto
     - Menú mobile: cerrado, sus links ya no se pueden alcanzar con
