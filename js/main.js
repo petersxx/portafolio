@@ -112,6 +112,8 @@ const cdFrames = heroVisual.querySelectorAll(".cd-frames img");
 const cdReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Sin movimiento no se montan los escenarios: el hero y Servicios son secciones normales.
 const stagesOn = () => !cdReduceMotion;
+// En mobile las tarjetas de Servicios quedan estáticas (mismo corte que css/styles.css).
+const mobileQuery = window.matchMedia("(max-width: 720px)");
 // Fracción de cada tramo que dura el cambio de cuadro; el resto el cuadro queda quieto.
 const CD_FLIP = 0.6;
 // Qué tan rápido la animación alcanza al scroll (más bajo = más inercia).
@@ -294,10 +296,10 @@ function requestSrv() {
 }
 
 function measureSrv() {
-  srvStaged = stagesOn();
+  srvStaged = stagesOn() && !mobileQuery.matches;
   srvGrid.classList.toggle("is-staged", srvStaged);
   if (!srvStaged) {
-    // Sin escenario (sin movimiento) mandan las apariciones sueltas de .reveal.
+    // Sin escenario (sin movimiento, o mobile) la rejilla queda como una sección normal.
     srvSlots.forEach((slot) => slot.style.removeProperty("--t"));
     srvGrid.style.removeProperty("transform");
     srvViewport.classList.remove("is-windowed");

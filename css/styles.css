@@ -740,6 +740,11 @@ a { color: inherit; text-decoration: none; }
   .section { padding-block: 70px; }
   /* Al saltar desde el menú, el título no queda debajo del navbar flotante. */
   .section { scroll-margin-top: 24px; }
+  /* Servicios en mobile: tarjetas estáticas, sin escenario de scroll ni aparición. */
+  .services-stage { height: auto; }
+  .services-sticky { position: static; height: auto; }
+  .services-viewport { overflow: visible; }
+  .service-slot.reveal { opacity: 1; transform: none; transition: none; }
   /* El header flota a 10px del borde, así que su base queda en --hdr + 10: el hero
      arranca debajo de eso. Si no entra en la pantalla fija, se alinea arriba en vez
      de centrarse y quedar tapado por el navbar. */

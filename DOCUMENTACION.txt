@@ -136,6 +136,7 @@ recomienda `python3 -m http.server 8000`).
   26. (2026-09-18) El CD flota en mobile (sin escenario de scroll)
   27. (2026-09-18) Mobile vuelve a tener todas las animaciones de
       escritorio, con ajustes de layout y rendimiento
+  28. (2026-09-18) Tarjetas de Servicios estáticas en mobile
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -201,6 +202,18 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-18] Tarjetas de Servicios estáticas en mobile
+    - Pedido: que las tarjetas de Servicios estén estáticas.
+    - En mobile (hasta 720px) Servicios es una lista normal: sin
+      escenario de scroll y sin la aparición al bajar; las
+      tarjetas se ven desde el principio. El CD del hero mantiene
+      su animación. En escritorio no cambia nada.
+    - js/main.js: el escenario de Servicios se monta solo si
+      stagesOn() y la pantalla es mayor a 720px (mobileQuery).
+    - css/styles.css: en el @media (max-width: 720px) Servicios
+      vuelve a ser una sección normal y .service-slot no anima.
+    - Archivos: css/styles.css, js/main.js, DOCUMENTACION.txt
 
   [2026-09-18] Mobile recupera todas las animaciones de escritorio
     - Pedido: tener en mobile las mismas animaciones que en
