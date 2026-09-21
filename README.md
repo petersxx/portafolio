@@ -33,6 +33,7 @@ y entrá a http://localhost:8000
 ## Personalizar
 
 - **Proyectos:** editá las tarjetas en la sección `#proyectos` de `index.html`.
+- **Precios:** editá las tarjetas `.plan-card` en la sección `#precios` de `index.html`.
 - **Número de WhatsApp:** cambiá `WHATSAPP_NUMBER` al inicio de `js/main.js` (con código de país, sin `+` ni espacios).
 - **Colores:** modificá las variables CSS en `:root` de `css/styles.css`.
 

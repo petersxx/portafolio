@@ -308,6 +308,14 @@ window.addEventListener("resize", measureSrv);
 window.addEventListener("load", measureSrv);
 measureSrv();
 
+// Botones de Precios: bajan a Contacto con el plan ya escrito en el mensaje.
+document.querySelectorAll("[data-plan]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const message = document.getElementById("message");
+    if (!message.value.trim()) message.value = `Hola, me interesa el plan ${btn.dataset.plan}.`;
+  });
+});
+
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(e.target);

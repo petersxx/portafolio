@@ -45,6 +45,10 @@ secciones, en este orden:
   - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
+  - Precios: 3 planes (Básico, Standard recomendado, Business)
+    con setup + cuota mensual en guaraníes, descripción y lista de
+    lo incluido. Cada botón baja a Contacto con el mensaje
+    "Hola, me interesa el plan X." ya escrito.
   - Contacto: formulario (nombre, email, mensaje) que NO envía
     email — arma un mensaje y abre WhatsApp Web/App con el texto
     precargado.
@@ -139,6 +143,7 @@ recomienda `python3 -m http.server 8000`).
   29. (2026-09-18) Compatibilidad con navegadores viejos y equipos
       con GPU débil (contenido visible sin JS, respaldos CSS/PNG)
   30. (2026-09-21) Se eliminaron las estadísticas de "Nosotros"
+  31. (2026-09-21) Nueva sección "Precios" con 3 planes
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -153,6 +158,10 @@ la pena resolver o decidir:
 
   - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
     clientes, faltaría cargarlos.
+  - Precios: los montos (Básico Gs. 550.000 + 180.000/mes,
+    Standard Gs. 850.000 + 250.000/mes) se tomaron de la página de
+    referencia que pasó el usuario (indexte.com). Confirmar que
+    sean los precios propios antes de publicar.
   - No hay favicon como archivo real: se usa un SVG inline como
     data URI. Podría convenir un favicon.ico/png tradicional para
     mejor compatibilidad.
@@ -192,6 +201,8 @@ la pena resolver o decidir:
     #proyectos en index.html.
   - Número de WhatsApp: cambiar WHATSAPP_NUMBER al inicio de
     js/main.js (con código de país, sin "+" ni espacios).
+  - Precios: editar las tarjetas .plan-card de la sección
+    #precios en index.html (montos, descripción y lista).
   - Colores: modificar las variables CSS en :root de
     css/styles.css.
 
@@ -199,6 +210,26 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Nueva sección "Precios"
+    - Pedido: agregar un apartado de precios parecido al de
+      indexte.com/pricing-websites (3 planes con setup + mensual).
+    - Entre Proyectos y Contacto, con link "Precios" en el menú.
+    - Tres tarjetas .plan-card con el mismo vidrio, brillo y hover
+      que las de Servicios. El plan recomendado (Standard) se
+      distingue solo con la etiqueta "✦ Recomendado" y el botón
+      cromado; los otros usan el botón de vidrio. Sin bordes de
+      color, para no salirse del estilo del sitio.
+    - Precios en un recuadro (setup / mensual) y lo incluido con la
+      estrella de la marca como viñeta. En escritorio los títulos
+      se alinean aunque solo una tarjeta tenga etiqueta; apiladas
+      (mobile) ese hueco se quita.
+    - Los botones llevan a #contacto y, si el mensaje está vacío,
+      escriben "Hola, me interesa el plan X." (js/main.js).
+    - Los montos están tomados de la referencia: quedan anotados
+      en pendientes para confirmar.
+    - Archivos: index.html, css/styles.css, js/main.js, README.md,
+      DOCUMENTACION.txt
 
   [2026-09-21] Se eliminaron las estadísticas de "Nosotros"
     - Pedido: sacar el apartado de estadísticas (15+ proyectos,
