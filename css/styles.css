@@ -458,41 +458,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 .about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: 40px;
-  align-items: center;
   margin-top: 30px;
   padding: 36px;
 }
 .about-grid > p { color: var(--text-muted); font-size: 1.08rem; }
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-.stat {
-  text-align: center;
-  padding: 18px 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(160, 180, 220, 0.22);
-  background: var(--glass-hi);
-}
-.stat strong {
-  display: block;
-  font-family: var(--font-head);
-  font-weight: 900;
-  font-size: 2.2rem;
-  line-height: 1.2;
-}
-.stat span {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-}
 
 /* Continuous marquee-style loop (tech tags): the track holds two identical groups back to back and scrolls exactly one group-width (-50%), so the loop point is invisible. */
 .carousel {
@@ -726,7 +695,7 @@ a { color: inherit; text-decoration: none; }
   /* 260px es el respaldo para navegadores sin svh; los demás usan la segunda línea. */
   .hero-visual { max-width: 260px; margin-left: auto; margin-right: auto; }
   .hero-visual { max-width: min(300px, 30svh); }
-  .about-grid { grid-template-columns: minmax(0, 1fr); padding: 26px; }
+  .about-grid { padding: 26px; }
   .veil { background: var(--veil-strong); }
 }
 
@@ -797,11 +766,5 @@ a { color: inherit; text-decoration: none; }
   .hero h1 { font-size: min(8.6vw, 2.3rem); }
   /* Más opaco que el vidrio general: el texto que pasa por detrás no se lee a través. */
   .nav { background: var(--card-bg); }
-  .stats { gap: 8px; }
-  .stat { padding: 16px 4px; }
-  /* Las etiquetas en mono son más anchas que el cuadro con el tracking de escritorio.
-     Los tamaños van atados al ancho por el mismo motivo que el título del hero. */
-  .stat strong { font-size: min(6.4vw, 1.5rem); }
-  .stat span { font-size: min(2.6vw, 0.6rem); letter-spacing: 0.02em; }
   .contact-form { padding: 22px; }
 }

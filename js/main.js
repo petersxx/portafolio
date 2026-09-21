@@ -1,8 +1,6 @@
 // Número de WhatsApp que recibe los mensajes del formulario (con código de país, sin + ni espacios).
 const WHATSAPP_NUMBER = "595991230966";
 
-const STATS = { statProjects: 15, statYears: 3, statTech: 12 };
-
 const root = document.documentElement;
 const themeToggle = document.getElementById("themeToggle");
 const navToggle = document.getElementById("navToggle");
@@ -45,31 +43,8 @@ navLinks.querySelectorAll("a").forEach((link) => {
   });
 });
 
-function animateCount(el, target) {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    el.textContent = `${target}+`;
-    return;
-  }
-  const duration = 1200;
-  const start = performance.now();
-  function tick(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    el.textContent = Math.floor(progress * target) + (progress === 1 ? "+" : "");
-    if (progress < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-let statsAnimated = false;
-
 function reveal(el) {
   el.classList.add("visible");
-  if (!statsAnimated && el.querySelector(".stats")) {
-    statsAnimated = true;
-    Object.entries(STATS).forEach(([id, value]) => {
-      animateCount(document.getElementById(id), value);
-    });
-  }
 }
 
 // Navegadores sin IntersectionObserver: todo se muestra de una.

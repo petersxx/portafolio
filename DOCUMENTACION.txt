@@ -1,6 +1,6 @@
 ================================================================
  MAIN TECHNOLOGIES — DOCUMENTACIÓN DEL PROYECTO
- Última actualización: 2026-09-18
+ Última actualización: 2026-09-21
 ================================================================
 
 1. CONCEPTO DE LA PÁGINA
@@ -22,8 +22,7 @@ secciones, en este orden:
     información (marquee, Nosotros, etc.). Con inercia.
   - Marquee: cinta animada con palabras clave de los servicios
     (Diseño web, Software a medida, E-commerce, etc.).
-  - Nosotros: texto de presentación + estadísticas animadas
-    (proyectos, años, tecnologías).
+  - Nosotros: texto de presentación (sin estadísticas).
   - Servicios: rejilla de 6 tarjetas (Desarrollo web, Software a
     medida, E-commerce, Aplicaciones web, Diseño UI/UX,
     Automatización e integraciones) + "Tecnologías que usamos".
@@ -62,7 +61,7 @@ localStorage, y estrellas/destellos decorativos en SVG.
   - CSS3 puro con variables, grid y tema claro/oscuro: css/styles.css
   - JavaScript vanilla, SIN framework ni build (no hay
     package.json ni bundler):
-      · js/main.js   → menú, tema, contador de stats, scroll-reveal,
+      · js/main.js   → menú, tema, scroll-reveal,
                         nav activo, envío del form a WhatsApp,
                         cambio de cuadros del CD del hero según
                         el scroll
@@ -139,6 +138,7 @@ recomienda `python3 -m http.server 8000`).
   28. (2026-09-18) Tarjetas de Servicios estáticas en mobile
   29. (2026-09-18) Compatibilidad con navegadores viejos y equipos
       con GPU débil (contenido visible sin JS, respaldos CSS/PNG)
+  30. (2026-09-21) Se eliminaron las estadísticas de "Nosotros"
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -151,9 +151,6 @@ funcionando.
 Cosas identificadas revisando el código que probablemente valga
 la pena resolver o decidir:
 
-  - Datos de ejemplo/placeholder en "Nosotros": las estadísticas
-    (15 proyectos, 3 años, 12 tecnologías) están hardcodeadas en
-    js/main.js (STATS) — confirmar que sean los números reales.
   - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
     clientes, faltaría cargarlos.
   - No hay favicon como archivo real: se usa un SVG inline como
@@ -195,8 +192,6 @@ la pena resolver o decidir:
     #proyectos en index.html.
   - Número de WhatsApp: cambiar WHATSAPP_NUMBER al inicio de
     js/main.js (con código de país, sin "+" ni espacios).
-  - Estadísticas: ajustar los números en STATS dentro de
-    js/main.js.
   - Colores: modificar las variables CSS en :root de
     css/styles.css.
 
@@ -204,6 +199,18 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Se eliminaron las estadísticas de "Nosotros"
+    - Pedido: sacar el apartado de estadísticas (15+ proyectos,
+      3+ años, 12+ tecnologías).
+    - "Nosotros" queda solo con el texto de presentación dentro de
+      su tarjeta de vidrio, a todo el ancho.
+    - Se borraron el HTML de .stats, los estilos .stats/.stat (y
+      sus ajustes de mobile), la constante STATS y el contador
+      animado (animateCount) de js/main.js. El pendiente de
+      "confirmar los números reales" ya no aplica.
+    - Archivos: index.html, css/styles.css, js/main.js, README.md,
+      DOCUMENTACION.txt
 
   [2026-09-18] Compatibilidad con más navegadores y computadoras
     - Pedido: el sitio no funcionaba en algunas computadoras.
