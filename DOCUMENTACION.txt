@@ -46,9 +46,9 @@ secciones, en este orden:
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
   - Precios: 3 planes (Básico, Standard recomendado, Business)
-    como suscripción mensual en guaraníes, sin setup: Básico
-    Gs. 149.000 (solo landing page, dominio incluido), Standard
-    Gs. 249.000 y Business a medida. Cada uno con descripción y
+    con setup único + cuota mensual en guaraníes: Básico Gs.
+    350.000 + 149.000/mes (solo landing page, dominio incluido),
+    Standard Gs. 700.000 + 249.000/mes y Business a medida. Cada uno con descripción y
     lista de lo incluido. "Elegir Básico" y "Pedir cotización"
     abren planes.html en ese plan; "Elegir Standard" abre
     standard.html.
@@ -173,6 +173,7 @@ recomienda `python3 -m http.server 8000`).
   37. (2026-09-21) Standard incluye sitio multipágina
   38. (2026-09-21) Página planes.html con el detalle de cada plan
   39. (2026-09-21) Página propia del plan Standard (standard.html)
+  40. (2026-09-21) Vuelve el setup: Básico 350.000, Standard 700.000
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -237,6 +238,20 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Vuelve el setup: Básico 350.000, Standard 700.000
+    - Pedido: volver a cobrar un setup único además de la cuota
+      mensual. Básico Gs. 350.000 y Standard Gs. 700.000; Business
+      "A medida" también en el setup. Las cuotas no cambian.
+    - Fila "Setup" arriba de "Mensual" en las tarjetas de
+      index.html, planes.html y la tarjeta final de standard.html
+      (vuelve el separador .plan-price div + div). En la
+      presentación de standard.html va "+ Gs. 700.000 de setup
+      único" debajo de la cuota (.price-setup).
+    - Textos que decían "sin setup" o "sin pago inicial": bajada
+      de Precios, etiqueta de planes.html y "Cómo empezamos".
+    - Archivos: index.html, planes.html, standard.html,
+      css/styles.css, DOCUMENTACION.txt
 
   [2026-09-21] Página propia del plan Standard (standard.html)
     - Pedido: una página para el Standard tomando como

@@ -652,6 +652,7 @@ a { color: inherit; text-decoration: none; }
   gap: 4px 12px;
   padding-top: 12px; padding-bottom: 12px;
 }
+.plan-price div + div { border-top: 1px solid rgba(160, 180, 220, 0.2); }
 .plan-price dt {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -799,6 +800,13 @@ a { color: inherit; text-decoration: none; }
 .plan-hero-price { font-family: var(--font-head); font-weight: 700; font-size: 1.6rem; }
 .plan-hero-price .price-cur,
 .plan-hero-price .price-per { font-size: 0.85rem; }
+.price-setup {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
