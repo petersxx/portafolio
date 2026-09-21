@@ -58,6 +58,7 @@ secciones, en este orden:
     mensaje "Hola, me interesa el plan X." ya escrito.
   - standard.html (página aparte): el plan Standard en detalle.
     Presentación con precio y botón, "Qué trae" (6 tarjetas),
+    "Un ejemplo real" (captura de jakay-u.com con link al sitio),
     una maqueta del panel editando precios (negocio de ejemplo,
     datos inventados), "Lo técnico, de nuestro lado" (dominio
     .com o .com.py, hosting, SSL, respaldos y monitoreo), "Cómo
@@ -176,6 +177,7 @@ recomienda `python3 -m http.server 8000`).
   40. (2026-09-21) Vuelve el setup: Básico 350.000, Standard 700.000
   41. (2026-09-21) Proyectos como carrusel infinito automático
   42. (2026-09-21) Cinta de tecnologías fija arriba del navbar
+  43. (2026-09-21) JAKAY'U como ejemplo real del plan Standard
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -241,6 +243,23 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] JAKAY'U como ejemplo del plan Standard
+    - Pedido: poner la web de jakay-u.com como ejemplo del Standard.
+    - standard.html: nueva sección "Un ejemplo real", después de
+      "Qué trae". Tarjeta que enlaza a jakay-u.com (pestaña nueva)
+      con una captura de su página de inicio en un marco de
+      navegador (misma barra que la demo del panel), nombre,
+      descripción de lo que se ve (catálogo por categorías,
+      buscador, carrito, WhatsApp) y etiquetas.
+    - Captura tomada con Chrome headless a 1440×900 y reducida a
+      1200×750: assets/img/ejemplo-jakayu.webp (39 KB) con
+      respaldo .jpg (129 KB), carga diferida.
+    - Si JAKAY'U cambia su diseño, la captura queda vieja: se
+      rehace igual (Chrome headless + cwebp/sips).
+    - Archivos: standard.html, css/styles.css,
+      assets/img/ejemplo-jakayu.webp (nuevo),
+      assets/img/ejemplo-jakayu.jpg (nuevo), DOCUMENTACION.txt
 
   [2026-09-21] "Tecnologías que usamos" pasa arriba del navbar
     - Pedido: la cinta de tecnologías arriba de todo, en el navbar,

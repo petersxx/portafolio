@@ -20,7 +20,7 @@ portafolio/
 ├── js/common.js    # Compartido por las dos páginas (tema, menú, apariciones, WhatsApp)
 ├── js/main.js      # Solo index.html (menú activo, CD con scroll, Servicios, formulario)
 ├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
-└── assets/img/     # Cuadros del CD del hero e imagen para compartir (og-image.jpg)
+└── assets/img/     # Cuadros del CD del hero, imagen para compartir (og-image.jpg) y captura de ejemplo del Standard
 ```
 
 ## Ver en local
