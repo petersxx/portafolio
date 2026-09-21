@@ -58,7 +58,7 @@ secciones, en este orden:
     mensaje "Hola, me interesa el plan X." ya escrito.
   - standard.html (página aparte): el plan Standard en detalle.
     Presentación con precio y botón, "Qué trae" (6 tarjetas),
-    "Un ejemplo real" (captura de jakay-u.com con link al sitio),
+    "Un ejemplo real" (captura de renovaparaguay.com con link),
     una maqueta del panel editando precios (negocio de ejemplo,
     datos inventados), "Lo técnico, de nuestro lado" (dominio
     .com o .com.py, hosting, SSL, respaldos y monitoreo), "Cómo
@@ -178,6 +178,7 @@ recomienda `python3 -m http.server 8000`).
   41. (2026-09-21) Proyectos como carrusel infinito automático
   42. (2026-09-21) Cinta de tecnologías fija arriba del navbar
   43. (2026-09-21) JAKAY'U como ejemplo real del plan Standard
+  44. (2026-09-21) El ejemplo del Standard pasa a ser RENOVA
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -243,6 +244,23 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] El ejemplo del Standard pasa a ser RENOVA
+    - Pedido: el ejemplo tenía que ser renovaparaguay.com, no
+      jakay-u.com (el usuario se había confundido).
+    - Nueva captura (Chrome headless 1440×900 → 1200×750):
+      assets/img/ejemplo-renova.webp (85 KB) + .jpg (247 KB). Se
+      borraron las de JAKAY'U.
+    - Nombre, descripción, etiquetas (Sitio web, Construcción,
+      Plan Standard), texto alternativo y link cambiados a RENOVA.
+    - Ojo: renovaparaguay.com es de una sola página (el menú
+      salta a secciones #nosotros, #servicios, etc.), mientras que
+      el Standard se presenta como multipágina. La descripción
+      habla de secciones, no de páginas, para no prometer algo que
+      el ejemplo no muestra.
+    - Archivos: standard.html, assets/img/ejemplo-renova.webp
+      (nuevo), assets/img/ejemplo-renova.jpg (nuevo),
+      assets/img/ejemplo-jakayu.* (borrados), DOCUMENTACION.txt
 
   [2026-09-21] JAKAY'U como ejemplo del plan Standard
     - Pedido: poner la web de jakay-u.com como ejemplo del Standard.
