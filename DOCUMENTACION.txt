@@ -49,8 +49,20 @@ secciones, en este orden:
     como suscripción mensual en guaraníes, sin setup: Básico
     Gs. 149.000 (solo landing page, dominio incluido), Standard
     Gs. 249.000 y Business a medida. Cada uno con descripción y
-    lista de lo incluido. Cada botón baja a Contacto con el mensaje
-    "Hola, me interesa el plan X." ya escrito.
+    lista de lo incluido. "Elegir Básico" y "Pedir cotización"
+    abren planes.html en ese plan; "Elegir Standard" abre
+    standard.html.
+  - planes.html (página aparte): el detalle de cada plan, con
+    precio, "Ideal para" y cada punto de la lista explicado. Su
+    botón "Quiero el plan X" vuelve a index.html#contacto con el
+    mensaje "Hola, me interesa el plan X." ya escrito.
+  - standard.html (página aparte): el plan Standard en detalle.
+    Presentación con precio y botón, "Qué trae" (6 tarjetas),
+    una maqueta del panel editando precios (negocio de ejemplo,
+    datos inventados), "Lo técnico, de nuestro lado" (dominio
+    .com o .com.py, hosting, SSL, respaldos y monitoreo), "Cómo
+    empezamos" (3 pasos, en línea en días) y la tarjeta final
+    con links a Básico y Business.
   - Contacto: formulario (nombre, email, mensaje) que NO envía
     email — arma un mensaje y abre WhatsApp Web/App con el texto
     precargado.
@@ -63,12 +75,19 @@ localStorage, y estrellas/destellos decorativos en SVG.
 
 2. STACK TÉCNICO
 ----------------------------------------------------------------
-  - HTML5 semántico, un solo archivo: index.html
+  - HTML5 semántico: index.html (página principal), planes.html
+    (detalle de los tres planes) y standard.html (página propia
+    del plan Standard)
   - CSS3 puro con variables, grid y tema claro/oscuro: css/styles.css
   - JavaScript vanilla, SIN framework ni build (no hay
     package.json ni bundler):
-      · js/main.js   → menú, tema, scroll-reveal,
-                        nav activo, envío del form a WhatsApp,
+      · js/common.js → lo compartido por las dos páginas: tema,
+                        menú, scroll-reveal, año del footer,
+                        WHATSAPP_NUMBER y el salto al ancla
+                        al cargar
+      · js/main.js   → solo index.html: nav activo, envío del
+                        form a WhatsApp, mensaje precargado con
+                        ?plan=…,
                         cambio de cuadros del CD del hero según
                         el scroll
                         aparición de las tarjetas de servicios
@@ -151,6 +170,9 @@ recomienda `python3 -m http.server 8000`).
   34. (2026-09-21) Básico: solo landing page con dominio, Gs. 120.000/mes
   35. (2026-09-21) Precios: Básico Gs. 149.000, Standard Gs. 249.000
   36. (2026-09-21) Descripción del Básico restaurada
+  37. (2026-09-21) Standard incluye sitio multipágina
+  38. (2026-09-21) Página planes.html con el detalle de cada plan
+  39. (2026-09-21) Página propia del plan Standard (standard.html)
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -203,9 +225,11 @@ la pena resolver o decidir:
   - Proyectos: editar las tarjetas dentro de la sección
     #proyectos en index.html.
   - Número de WhatsApp: cambiar WHATSAPP_NUMBER al inicio de
-    js/main.js (con código de país, sin "+" ni espacios).
+    js/common.js (con código de país, sin "+" ni espacios).
   - Precios: editar las tarjetas .plan-card de la sección
-    #precios en index.html (montos, descripción y lista).
+    #precios en index.html (montos, descripción y lista) y el
+    detalle de cada plan en planes.html y el Standard en
+    standard.html; los montos se repiten en los tres archivos.
   - Colores: modificar las variables CSS en :root de
     css/styles.css.
 
@@ -213,6 +237,67 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Página propia del plan Standard (standard.html)
+    - Pedido: una página para el Standard tomando como
+      inspiración indexte.com/pricing/websites/standard, pero sin
+      copiarla. La estructura, los títulos y los textos son
+      propios; de la referencia solo queda la idea de una página
+      dedicada al plan y de mostrar una demo del panel.
+    - El usuario confirmó que el Standard incluye: hosting y SSL,
+      respaldos y monitoreo, entrega en días y dominio propio
+      .com o .com.py. Solo eso se promete en la página.
+    - Secciones: presentación (precio + botón), "Qué trae",
+      "Tu negocio cambia, tu sitio también" con una maqueta
+      estática del panel (tienda de ejemplo; en mobile el precio
+      tachado va en su propia línea para no aplastar el nombre),
+      "Lo técnico, de nuestro lado", "Cómo empezamos" (3 pasos) y
+      la tarjeta final del plan (reusa .plan-card).
+    - Reusa las tarjetas de Servicios (.skill-card), el título
+      del hero y .plan-card; lo nuevo es .feature-grid,
+      .plan-split, .panel-demo, .tech-box y .steps.
+    - "Elegir Standard" en index.html ahora abre standard.html, y
+      la tarjeta Standard de planes.html suma "Ver el plan
+      completo →".
+    - Archivos: standard.html (nuevo), index.html, planes.html,
+      css/styles.css, README.md, DOCUMENTACION.txt
+
+  [2026-09-21] Página de detalle de los planes (planes.html)
+    - Pedido: que "Elegir Básico", "Elegir Standard" y "Pedir
+      cotización" abran una página nueva con la descripción
+      detallada de cada plan.
+    - planes.html: mismo header, fondo, tema y footer que la
+      principal (el menú apunta a index.html#… y marca Precios).
+      Una tarjeta por plan (#basico, #standard, #business) con el
+      mismo vidrio que las de Precios: a un lado nombre, precio,
+      "Ideal para" y botón; al otro cada punto de la lista con una
+      explicación. Arriba, accesos rápidos a cada plan; abajo, un
+      recuadro "¿No sabés cuál te conviene?" que lleva a Contacto.
+    - Los botones de Precios ahora son links a planes.html#plan.
+      "Quiero el plan X" va a index.html?plan=x#contacto y main.js
+      escribe "Hola, me interesa el plan X." en el mensaje (reemplaza
+      el rellenado al hacer clic que había antes).
+    - JS dividido: lo que sirve para las dos páginas (tema, menú,
+      apariciones, año, WHATSAPP_NUMBER) pasó a js/common.js;
+      main.js quedó solo con lo de index.html (el CD y Servicios
+      fallarían en planes.html).
+    - Arreglo: al abrir un link con ancla desde otra página el
+      navegador no bajaba (el scroll suave se cortaba al cambiar
+      el alto de la página mientras carga). common.js repite el
+      salto al terminar la carga, sin animación.
+    - Los textos de detalle se escribieron a partir de la lista de
+      cada plan; no prometen plazos, cantidad de cambios ni
+      hosting, porque no están definidos.
+    - Archivos: planes.html (nuevo), js/common.js (nuevo),
+      js/main.js, index.html, css/styles.css, README.md,
+      DOCUMENTACION.txt
+
+  [2026-09-21] Standard incluye sitio multipágina
+    - Pedido: agregar "Sitio multipágina" al plan Standard, que
+      antes solo heredaba lo del Básico (landing page).
+    - Va segundo en la lista, justo después de "Todo lo incluido
+      en Básico".
+    - Archivos: index.html, DOCUMENTACION.txt
 
   [2026-09-21] Descripción del Básico como al principio
     - Pedido: volver a las descripciones iniciales. La del Básico

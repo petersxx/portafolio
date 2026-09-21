@@ -1,71 +1,4 @@
-// Número de WhatsApp que recibe los mensajes del formulario (con código de país, sin + ni espacios).
-const WHATSAPP_NUMBER = "595991230966";
-
-const root = document.documentElement;
-const themeToggle = document.getElementById("themeToggle");
-const navToggle = document.getElementById("navToggle");
-const navLinks = document.getElementById("navLinks");
-
-function applyTheme(theme) {
-  root.setAttribute("data-theme", theme);
-  themeToggle.setAttribute("aria-label", theme === "dark" ? "Cambiar a ice chrome" : "Cambiar a black chrome");
-}
-
-function getStoredTheme() {
-  try {
-    return localStorage.getItem("theme");
-  } catch (e) {
-    return null;
-  }
-}
-
-applyTheme(getStoredTheme() || "dark");
-
-themeToggle.addEventListener("click", () => {
-  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  applyTheme(next);
-  try {
-    localStorage.setItem("theme", next);
-  } catch (e) {}
-});
-
-navToggle.addEventListener("click", () => {
-  const open = navLinks.classList.toggle("open");
-  navToggle.classList.toggle("open", open);
-  navToggle.setAttribute("aria-expanded", String(open));
-});
-
-navLinks.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("open");
-    navToggle.classList.remove("open");
-    navToggle.setAttribute("aria-expanded", "false");
-  });
-});
-
-function reveal(el) {
-  el.classList.add("visible");
-}
-
-// Navegadores sin IntersectionObserver: todo se muestra de una.
-const hasIO = "IntersectionObserver" in window;
-const revealObserver = hasIO
-  ? new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          reveal(entry.target);
-          revealObserver.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.15 }
-    )
-  : null;
-
-document.querySelectorAll(".reveal").forEach((el) => (hasIO ? revealObserver.observe(el) : reveal(el)));
-// Avisa al script del <head> que las apariciones arrancaron (si no, desoculta todo).
-window.revealReady = true;
-
+// Solo la página principal: menú activo, escenarios del hero y Servicios, y formulario.
 const sections = document.querySelectorAll("main section[id]");
 const linkById = {};
 navLinks.querySelectorAll("a").forEach((a) => {
@@ -308,13 +241,10 @@ window.addEventListener("resize", measureSrv);
 window.addEventListener("load", measureSrv);
 measureSrv();
 
-// Botones de Precios: bajan a Contacto con el plan ya escrito en el mensaje.
-document.querySelectorAll("[data-plan]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const message = document.getElementById("message");
-    if (!message.value.trim()) message.value = `Hola, me interesa el plan ${btn.dataset.plan}.`;
-  });
-});
+// Llegando desde planes.html ("Quiero este plan"): el mensaje ya trae el plan elegido.
+const PLAN_NAMES = { basico: "Básico", standard: "Standard", business: "Business" };
+const chosenPlan = PLAN_NAMES[new URLSearchParams(location.search).get("plan")];
+if (chosenPlan) document.getElementById("message").value = `Hola, me interesa el plan ${chosenPlan}.`;
 
 document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -329,4 +259,3 @@ document.getElementById("contactForm").addEventListener("submit", (e) => {
   link.click();
 });
 
-document.getElementById("year").textContent = new Date().getFullYear();

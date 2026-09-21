@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan Standard ✦ Main Technologies</title>
+  <meta name="description" content="Plan Standard de Main Technologies: sitio multipágina con panel para editarlo vos mismo, dominio, hosting y SSL incluidos, por Gs. 249.000 al mes." />
+  <link rel="canonical" href="https://maintechnologies.dev/standard.html" />
+  <!-- Vista previa al compartir el link (WhatsApp, redes, Slack, etc.). -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Main Technologies" />
+  <meta property="og:locale" content="es_PY" />
+  <meta property="og:url" content="https://maintechnologies.dev/standard.html" />
+  <meta property="og:title" content="Plan Standard ✦ Main Technologies" />
+  <meta property="og:description" content="Sitio multipágina con panel propio, dominio, hosting y SSL incluidos, por Gs. 249.000 al mes." />
+  <meta property="og:image" content="https://maintechnologies.dev/assets/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Main Technologies — desarrollo de software" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Plan Standard ✦ Main Technologies" />
+  <meta name="twitter:description" content="Sitio multipágina con panel propio, dominio, hosting y SSL incluidos, por Gs. 249.000 al mes." />
+  <meta name="twitter:image" content="https://maintechnologies.dev/assets/img/og-image.jpg" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'><path d='M0-50C4-12 12-4 50 0 12 4 4 12 0 50-4 12-12 4-50 0-12-4-4-12 0-50Z' fill='%236f9bff'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Antes de pintar: aplica el tema guardado (sin destello del oscuro) y marca que hay JS,
+       lo único que habilita a esconder los elementos .reveal hasta que entran en pantalla.
+       Si js/main.js no llega a arrancar (bloqueado, error en un navegador viejo), a los 3 s
+       se quita la marca y el contenido se ve igual. Sintaxis ES5 a propósito. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.className += " js";
+      try {
+        if (localStorage.getItem("theme") === "light") root.setAttribute("data-theme", "light");
+      } catch (e) {}
+      setTimeout(function () {
+        if (!window.revealReady) root.className = root.className.replace(/(^|\s)js(\s|$)/, " ");
+      }, 3000);
+    })();
+  </script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-chrome" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".34" stop-color="#cfdaf0"/>
+        <stop offset=".48" stop-color="#4a64a0"/>
+        <stop offset=".52" stop-color="#0a1633"/>
+        <stop offset=".64" stop-color="#6f9bff"/>
+        <stop offset=".86" stop-color="#e8f0ff"/>
+        <stop offset="1" stop-color="#ffffff"/>
+      </linearGradient>
+      <symbol id="star" viewBox="-50 -50 100 100">
+        <path d="M0-50C4-12 12-4 50 0 12 4 4 12 0 50-4 12-12 4-50 0-12-4-4-12 0-50Z" fill="url(#g-chrome)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <canvas id="chrome" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav glass">
+      <a href="index.html" class="logo chrome-text">Main Technologies</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#inicio">Inicio</a></li>
+        <li><a href="index.html#nosotros">Nosotros</a></li>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#proyectos">Proyectos</a></li>
+        <li><a href="index.html#precios" class="active" aria-current="page">Precios</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+      <button class="theme-toggle chrome-edge" id="themeToggle" aria-label="Cambiar a ice chrome">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page-plan">
+    <section class="section container plan-hero">
+      <a href="planes.html" class="back-link reveal">← Todos los planes</a>
+      <p class="eyebrow reveal">✦ plan standard ✦</p>
+      <h1 class="reveal"><span class="chrome-text shine">Tu sitio completo, y la llave para cambiarlo.</span></h1>
+      <p class="hero-sub reveal">
+        Un sitio con todas las páginas que tu negocio necesita y un panel propio para mantenerlo al día.
+        Del dominio, el hosting y la seguridad nos ocupamos nosotros.
+      </p>
+      <div class="plan-hero-buy reveal">
+        <p class="plan-hero-price"><span class="price-cur">Gs.</span> 249.000<span class="price-per">/mes</span></p>
+        <a href="index.html?plan=standard#contacto" class="btn btn-chrome">Quiero el plan Standard</a>
+      </div>
+    </section>
+
+    <section class="section container">
+      <h2 class="section-title chrome-text reveal">Qué trae</h2>
+      <p class="section-sub reveal">Todo lo que incluye la cuota mensual del plan Standard.</p>
+      <div class="feature-grid reveal">
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Las páginas que haga falta</h3>
+          <p>Inicio, servicios, catálogo, nosotros, contacto… Cada sección de tu negocio con su propia página y su propia dirección para compartir.</p>
+        </div>
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Tu propio panel</h3>
+          <p>Entrás con tu usuario y cambiás textos, fotos, productos y precios. Sin tocar código y sin tener que pedírnoslo.</p>
+        </div>
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Métricas de verdad</h3>
+          <p>Google Analytics y Search Console conectados: visitas, páginas más vistas y búsquedas con las que te encuentran.</p>
+        </div>
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Preparado para Google</h3>
+          <p>SEO técnico, imágenes livianas y carga rápida desde el primer día.</p>
+        </div>
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Atención primero</h3>
+          <p>Soporte prioritario: tus consultas y pedidos pasan adelante en la fila.</p>
+        </div>
+        <div class="skill-card glass">
+          <svg class="skill-star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+          <h3>Y todo lo del Básico</h3>
+          <p>Formulario de contacto, diseño con tu identidad y cambios de contenido cuando los necesites.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="plan-split">
+        <div class="reveal">
+          <h2 class="section-title chrome-text">Tu negocio cambia, tu sitio también</h2>
+          <p class="section-sub">Subió un precio, llegó un producto nuevo, cambió el horario: lo actualizás vos desde el panel, en el celular o la computadora, y se publica al guardar.</p>
+        </div>
+        <div class="panel-demo glass reveal" role="img" aria-label="Ejemplo del panel: lista de productos con su precio y un botón para editar cada uno">
+          <div class="panel-demo-bar" aria-hidden="true"><span></span><span></span><span></span><p>Panel · Tu tienda</p></div>
+          <ul class="panel-demo-list" aria-hidden="true">
+            <li><div><strong>Mate de calabaza</strong><small>Productos</small></div><span class="panel-demo-price">Gs. 85.000</span><span class="panel-demo-edit">Editar</span></li>
+            <li><div><strong>Termo 1 litro</strong><small>Productos · <em>Promo</em></small></div><span class="panel-demo-price"><s>Gs. 210.000</s> Gs. 180.000</span><span class="panel-demo-edit">Editar</span></li>
+            <li class="is-editing"><div><strong>Bombilla de alpaca</strong><small>Editando precio…</small></div><span class="panel-demo-price">Gs. 45.000<i class="panel-demo-caret"></i></span><span class="panel-demo-edit">Guardar</span></li>
+            <li><div><strong>Horario de atención</strong><small>Textos</small></div><span class="panel-demo-price">Lun a sáb</span><span class="panel-demo-edit">Editar</span></li>
+          </ul>
+          <p class="panel-demo-note" aria-hidden="true">Negocio de ejemplo</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <h2 class="section-title chrome-text reveal">Lo técnico, de nuestro lado</h2>
+      <p class="section-sub reveal">Nada de contratar servicios por separado: va todo en la cuota.</p>
+      <div class="tech-box glass reveal">
+        <div class="tech-domain">
+          <p class="tech-label">Tu dominio</p>
+          <p class="domain-name">tunegocio<span>.com</span></p>
+          <p class="domain-name">tunegocio<span>.com.py</span></p>
+          <p class="tech-note">El que prefieras, incluido en la cuota.</p>
+        </div>
+        <ul class="plan-detail-list">
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Hosting</h3><p>Tu sitio en servidores rápidos, sin que tengas que contratar nada aparte.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Certificado SSL</h3><p>https y el candado del navegador, para que tus visitantes naveguen seguros.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Respaldos</h3><p>Copias de seguridad de tu sitio, por si algo sale mal.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Monitoreo</h3><p>Vigilamos que el sitio esté siempre en línea.</p></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section container">
+      <h2 class="section-title chrome-text reveal">Cómo empezamos</h2>
+      <p class="section-sub reveal">Sin pago inicial: arrancás directamente con la cuota mensual.</p>
+      <ol class="steps reveal">
+        <li class="glass"><span class="step-num chrome-text">01</span><h3>Charlamos</h3><p>Nos contás qué hace tu negocio, qué páginas necesitás y qué querés lograr con el sitio.</p></li>
+        <li class="glass"><span class="step-num chrome-text">02</span><h3>Diseñamos y construimos</h3><p>Armamos el sitio con tu identidad y cargamos el contenido inicial.</p></li>
+        <li class="glass"><span class="step-num chrome-text">03</span><h3>Lo lanzamos</h3><p>En días tu sitio está en línea con tu dominio, y te damos acceso a tu panel.</p></li>
+      </ol>
+    </section>
+
+    <section class="section container">
+      <article class="plan-card glass is-featured plan-final reveal">
+        <p class="plan-badge">✦ Recomendado</p>
+        <h3 class="chrome-text">Standard</h3>
+        <dl class="plan-price">
+          <div><dt>Mensual</dt><dd><span class="price-cur">Gs.</span> 249.000<span class="price-per">/mes</span></dd></div>
+        </dl>
+        <p class="plan-desc">¿Buscás algo más simple? Mirá el <a href="planes.html#basico">plan Básico</a>. ¿Necesitás tienda, reservas o integraciones? Mirá <a href="planes.html#business">Business</a>.</p>
+        <a href="index.html?plan=standard#contacto" class="btn btn-chrome">Quiero el plan Standard</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> <span class="logo-sm chrome-text">Main Technologies</span> ✦ Todos los derechos reservados.</p>
+      <div class="socials">
+        <a href="https://github.com/petersxx" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/chrome.js"></script>
+</body>
+</html>

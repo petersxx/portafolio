@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planes ✦ Main Technologies</title>
+  <meta name="description" content="Planes de Main Technologies: qué incluye en detalle cada suscripción mensual (Básico, Standard y Business)." />
+  <link rel="canonical" href="https://maintechnologies.dev/planes.html" />
+  <!-- Vista previa al compartir el link (WhatsApp, redes, Slack, etc.). -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Main Technologies" />
+  <meta property="og:locale" content="es_PY" />
+  <meta property="og:url" content="https://maintechnologies.dev/planes.html" />
+  <meta property="og:title" content="Planes ✦ Main Technologies" />
+  <meta property="og:description" content="Qué incluye cada plan de suscripción mensual: Básico, Standard y Business." />
+  <meta property="og:image" content="https://maintechnologies.dev/assets/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Main Technologies — desarrollo de software" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Planes ✦ Main Technologies" />
+  <meta name="twitter:description" content="Qué incluye cada plan de suscripción mensual: Básico, Standard y Business." />
+  <meta name="twitter:image" content="https://maintechnologies.dev/assets/img/og-image.jpg" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'><path d='M0-50C4-12 12-4 50 0 12 4 4 12 0 50-4 12-12 4-50 0-12-4-4-12 0-50Z' fill='%236f9bff'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Antes de pintar: aplica el tema guardado (sin destello del oscuro) y marca que hay JS,
+       lo único que habilita a esconder los elementos .reveal hasta que entran en pantalla.
+       Si js/main.js no llega a arrancar (bloqueado, error en un navegador viejo), a los 3 s
+       se quita la marca y el contenido se ve igual. Sintaxis ES5 a propósito. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.className += " js";
+      try {
+        if (localStorage.getItem("theme") === "light") root.setAttribute("data-theme", "light");
+      } catch (e) {}
+      setTimeout(function () {
+        if (!window.revealReady) root.className = root.className.replace(/(^|\s)js(\s|$)/, " ");
+      }, 3000);
+    })();
+  </script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-chrome" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".34" stop-color="#cfdaf0"/>
+        <stop offset=".48" stop-color="#4a64a0"/>
+        <stop offset=".52" stop-color="#0a1633"/>
+        <stop offset=".64" stop-color="#6f9bff"/>
+        <stop offset=".86" stop-color="#e8f0ff"/>
+        <stop offset="1" stop-color="#ffffff"/>
+      </linearGradient>
+      <symbol id="star" viewBox="-50 -50 100 100">
+        <path d="M0-50C4-12 12-4 50 0 12 4 4 12 0 50-4 12-12 4-50 0-12-4-4-12 0-50Z" fill="url(#g-chrome)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <canvas id="chrome" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav glass">
+      <a href="index.html" class="logo chrome-text">Main Technologies</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#inicio">Inicio</a></li>
+        <li><a href="index.html#nosotros">Nosotros</a></li>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#proyectos">Proyectos</a></li>
+        <li><a href="index.html#precios" class="active" aria-current="page">Precios</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+      <button class="theme-toggle chrome-edge" id="themeToggle" aria-label="Cambiar a ice chrome">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page-plans">
+    <section class="section container">
+      <a href="index.html#precios" class="back-link reveal">← Volver a precios</a>
+      <p class="eyebrow reveal">✦ suscripción mensual · sin setup ✦</p>
+      <h1 class="section-title chrome-text reveal">Planes</h1>
+      <p class="section-sub reveal">Todo lo que incluye cada plan, en detalle.</p>
+      <nav class="tags plan-jump reveal" aria-label="Ir a un plan">
+        <a href="#basico">Básico</a><a href="#standard">Standard</a><a href="#business">Business</a>
+      </nav>
+
+      <article id="basico" class="plan-detail glass reveal">
+        <div class="plan-detail-side">
+          <h2 class="chrome-text">Básico</h2>
+          <dl class="plan-price">
+            <div><dt>Mensual</dt><dd><span class="price-cur">Gs.</span> 149.000<span class="price-per">/mes</span></dd></div>
+          </dl>
+          <p class="plan-ideal"><strong>Ideal para</strong> emprendimientos, profesionales independientes y negocios que quieren estar en internet con una página clara y lista para recibir clientes.</p>
+          <a href="index.html?plan=basico#contacto" class="btn btn-ghost chrome-edge">Quiero el plan Básico</a>
+        </div>
+        <ul class="plan-detail-list">
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Landing page</h3><p>Un sitio de una sola página, con las secciones que tu negocio necesita: presentación, servicios, fotos, ubicación y contacto. Pensado para que quien entra entienda rápido qué hacés y cómo contactarte.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Dominio incluido</h3><p>Tu propia dirección web (por ejemplo, tunegocio.com) va incluida en la cuota mensual: no tenés que comprarla ni pagarla aparte.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Formulario de contacto</h3><p>Tus clientes te pueden escribir directamente desde la página, sin tener que buscar tu número o tu email.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Diseño adaptado a tu marca</h3><p>Usamos tus colores, tu logo y tu estilo, y la página se ve bien en celular, tablet y computadora.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Soporte y cambios de contenido</h3><p>¿Cambió un precio, un horario o una foto? Nos avisás y lo actualizamos por vos.</p></div></li>
+        </ul>
+      </article>
+
+      <article id="standard" class="plan-detail glass reveal is-featured">
+        <div class="plan-detail-side">
+          <p class="plan-badge">✦ Recomendado</p>
+          <h2 class="chrome-text">Standard</h2>
+          <dl class="plan-price">
+            <div><dt>Mensual</dt><dd><span class="price-cur">Gs.</span> 249.000<span class="price-per">/mes</span></dd></div>
+          </dl>
+          <p class="plan-ideal"><strong>Ideal para</strong> empresas que necesitan un sitio completo, quieren medir sus resultados y prefieren actualizar el contenido por su cuenta.</p>
+          <a href="index.html?plan=standard#contacto" class="btn btn-chrome">Quiero el plan Standard</a>
+          <a href="standard.html" class="back-link plan-more">Ver el plan completo →</a>
+        </div>
+        <ul class="plan-detail-list">
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Todo lo incluido en Básico</h3><p>Dominio incluido, formulario de contacto, diseño adaptado a tu marca y soporte con cambios de contenido.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Sitio multipágina</h3><p>En lugar de una sola página, un sitio con varias: inicio, nosotros, servicios, contacto y las que haga falta. Cada una tiene su propia dirección para compartirla y para que Google la encuentre.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Google Analytics y Search Console</h3><p>Ves cuántas personas visitan tu sitio, de dónde llegan y qué páginas miran, y cómo aparece tu sitio en las búsquedas de Google.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Panel para editar textos e imágenes sin código</h3><p>Un panel simple desde el que cambiás textos y fotos vos mismo, cuando quieras, sin saber programar.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>SEO técnico y velocidad optimizada</h3><p>Preparamos el sitio para que Google lo entienda bien y lo optimizamos para que cargue rápido, algo que también cuenta a la hora de aparecer en los resultados.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Soporte prioritario</h3><p>Tus consultas y pedidos de cambios se atienden antes.</p></div></li>
+        </ul>
+      </article>
+
+      <article id="business" class="plan-detail glass reveal">
+        <div class="plan-detail-side">
+          <h2 class="chrome-text">Business</h2>
+          <dl class="plan-price">
+            <div><dt>Mensual</dt><dd>A medida</dd></div>
+          </dl>
+          <p class="plan-ideal"><strong>Ideal para</strong> negocios que necesitan más que un sitio: vender online, tomar reservas, dar acceso a sus clientes o conectar la web con sus sistemas.</p>
+          <a href="index.html?plan=business#contacto" class="btn btn-ghost chrome-edge">Pedir cotización</a>
+        </div>
+        <ul class="plan-detail-list">
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>E-commerce, reservas y portales</h3><p>Tiendas online con catálogo, pagos y gestión de pedidos; sistemas de turnos y reservas; o portales con acceso para tus clientes.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Integraciones con CRM y automatizaciones</h3><p>Conectamos tu sitio con las herramientas que ya usás y automatizamos tareas repetitivas para que tu equipo ahorre horas.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>SEO avanzado</h3><p>Un trabajo de posicionamiento más profundo para competir por las búsquedas que más le importan a tu negocio.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Soporte prioritario</h3><p>Tus consultas y pedidos de cambios se atienden antes.</p></div></li>
+            <li><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#star"/></svg><div><h3>Precio a medida</h3><p>Cada proyecto es distinto: primero charlamos lo que necesitás y después te pasamos un presupuesto.</p></div></li>
+        </ul>
+      </article>
+
+      <div class="plans-cta glass reveal">
+        <p>¿No sabés cuál te conviene? Contanos qué necesitás y te recomendamos el plan indicado.</p>
+        <a href="index.html#contacto" class="btn btn-chrome">Hablemos</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> <span class="logo-sm chrome-text">Main Technologies</span> ✦ Todos los derechos reservados.</p>
+      <div class="socials">
+        <a href="https://github.com/petersxx" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/chrome.js"></script>
+</body>
+</html>

@@ -14,8 +14,11 @@ Sitio web de Main Technologies, empresa de desarrollo de software: servicios, pr
 ```
 portafolio/
 ├── index.html      # Página principal
+├── planes.html     # Detalle de cada plan (Básico, Standard, Business)
+├── standard.html   # Página propia del plan Standard
 ├── css/styles.css  # Estilos
-├── js/main.js      # Interactividad (menú, tema, animaciones, CD con scroll, formulario)
+├── js/common.js    # Compartido por las dos páginas (tema, menú, apariciones, WhatsApp)
+├── js/main.js      # Solo index.html (menú activo, CD con scroll, Servicios, formulario)
 ├── js/chrome.js    # Shader WebGL del fondo de cromo líquido
 └── assets/img/     # Cuadros del CD del hero e imagen para compartir (og-image.jpg)
 ```
@@ -33,8 +36,8 @@ y entrá a http://localhost:8000
 ## Personalizar
 
 - **Proyectos:** editá las tarjetas en la sección `#proyectos` de `index.html`.
-- **Precios:** editá las tarjetas `.plan-card` en la sección `#precios` de `index.html`.
-- **Número de WhatsApp:** cambiá `WHATSAPP_NUMBER` al inicio de `js/main.js` (con código de país, sin `+` ni espacios).
+- **Precios:** editá las tarjetas `.plan-card` en la sección `#precios` de `index.html` el detalle de cada plan en `planes.html` y la página del Standard en `standard.html` (los montos se repiten en los tres archivos).
+- **Número de WhatsApp:** cambiá `WHATSAPP_NUMBER` al inicio de `js/common.js` (con código de país, sin `+` ni espacios).
 - **Colores:** modificá las variables CSS en `:root` de `css/styles.css`.
 
 ## Publicar
