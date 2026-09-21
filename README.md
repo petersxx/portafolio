@@ -35,7 +35,7 @@ y entrá a http://localhost:8000
 
 ## Personalizar
 
-- **Proyectos:** editá las tarjetas en la sección `#proyectos` de `index.html`.
+- **Proyectos:** editá las tarjetas en la sección `#proyectos` de `index.html`, en las dos copias del carrusel (la segunda es la copia visual del bucle).
 - **Precios:** editá las tarjetas `.plan-card` en la sección `#precios` de `index.html` el detalle de cada plan en `planes.html` y la página del Standard en `standard.html` (los montos se repiten en los tres archivos).
 - **Número de WhatsApp:** cambiá `WHATSAPP_NUMBER` al inicio de `js/common.js` (con código de país, sin `+` ni espacios).
 - **Colores:** modificá las variables CSS en `:root` de `css/styles.css`.

@@ -42,9 +42,11 @@ secciones, en este orden:
     pausa al pasar el mouse por encima o al enfocar con el teclado,
     y no se anima si el sistema tiene activado "reducir
     movimiento".
-  - Proyectos: tarjetas con 3 casos reales de clientes (RENOVA
-    Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
-    real del cliente.
+  - Proyectos: 3 casos reales de clientes (RENOVA Constructora,
+    Solar Guaraní, JAKAY'U), cada tarjeta enlaza al sitio real del
+    cliente. Van en una cinta infinita automática (misma técnica
+    que "Tecnologías que usamos"), que se pausa con el mouse o el
+    foco y queda como rejilla quieta con "reducir movimiento".
   - Precios: 3 planes (Básico, Standard recomendado, Business)
     con setup único + cuota mensual en guaraníes: Básico Gs.
     350.000 + 149.000/mes (solo landing page, dominio incluido),
@@ -174,6 +176,7 @@ recomienda `python3 -m http.server 8000`).
   38. (2026-09-21) Página planes.html con el detalle de cada plan
   39. (2026-09-21) Página propia del plan Standard (standard.html)
   40. (2026-09-21) Vuelve el setup: Básico 350.000, Standard 700.000
+  41. (2026-09-21) Proyectos como carrusel infinito automático
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -224,7 +227,8 @@ la pena resolver o decidir:
 6. CÓMO PERSONALIZAR (según README.md)
 ----------------------------------------------------------------
   - Proyectos: editar las tarjetas dentro de la sección
-    #proyectos en index.html.
+    #proyectos en index.html, en las dos copias del carrusel
+    (la segunda, aria-hidden, es la copia visual del bucle).
   - Número de WhatsApp: cambiar WHATSAPP_NUMBER al inicio de
     js/common.js (con código de país, sin "+" ni espacios).
   - Precios: editar las tarjetas .plan-card de la sección
@@ -238,6 +242,23 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Proyectos como carrusel infinito automático
+    - Pedido: que Proyectos sea un carrusel infinito automático.
+    - Misma técnica que la cinta de Tecnologías: dos copias
+      idénticas de las 3 tarjetas (la segunda con aria-hidden e
+      inert) y una animación CSS que recorre exactamente una copia
+      antes de reiniciarse. Va hacia la izquierda (la de
+      Tecnologías va al revés), en 45 s por vuelta.
+    - Tarjetas de ancho fijo, min(380px, 80vw): así cada copia
+      (3 × 404px = 1212px) es más ancha que la cinta visible
+      (1160px) y no se ve un hueco antes del reinicio. Si se sacan
+      proyectos, hay que revisar esa cuenta.
+    - Se pausa con el mouse encima o con el foco del teclado. Con
+      "reducir movimiento" no se anima: se oculta la copia y las
+      tarjetas vuelven a una rejilla.
+    - Se eliminó .projects-grid, que ya no se usa.
+    - Archivos: index.html, css/styles.css, DOCUMENTACION.txt
 
   [2026-09-21] Vuelve el setup: Básico 350.000, Standard 700.000
     - Pedido: volver a cobrar un setup único además de la cuota
