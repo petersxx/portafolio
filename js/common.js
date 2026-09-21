@@ -69,6 +69,15 @@ window.revealReady = true;
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Alto real del header (cinta + navbar): el CSS lo usa para no tapar contenido.
+const siteHeader = document.querySelector(".site-header");
+function measureHeader() {
+  root.style.setProperty("--hdr", `${siteHeader.offsetHeight}px`);
+}
+measureHeader();
+window.addEventListener("resize", measureHeader);
+window.addEventListener("load", measureHeader);
+
 // Al abrir un link con ancla (planes.html#standard, index.html?plan=…#contacto) el salto
 // inicial se pierde: el scroll suave lo corta cuando la página cambia de alto al cargar.
 // Se repite una vez terminada la carga, ya sin animación.

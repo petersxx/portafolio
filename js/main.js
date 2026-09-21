@@ -134,9 +134,8 @@ function stepCd() {
 }
 
 function measureCd() {
-  // El escenario se mete debajo del header, así que el CSS necesita su alto real.
-  const header = document.querySelector(".site-header");
-  document.documentElement.style.setProperty("--hdr", `${header.offsetHeight}px`);
+  // El escenario se mete debajo del header: --hdr (su alto real) lo mide common.js.
+  measureHeader();
   if (!stagesOn()) {
     // Sin escenario (sin movimiento) el CD se queda quieto en su primer cuadro.
     resetCd();

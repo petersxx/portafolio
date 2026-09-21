@@ -25,7 +25,7 @@ secciones, en este orden:
   - Nosotros: texto de presentación (sin estadísticas).
   - Servicios: rejilla de 6 tarjetas (Desarrollo web, Software a
     medida, E-commerce, Aplicaciones web, Diseño UI/UX,
-    Automatización e integraciones) + "Tecnologías que usamos".
+    Automatización e integraciones).
     Las tarjetas ya no se deslizan: la rejilla (3 columnas, 2 y 1
     según el ancho) queda pegada a la pantalla durante un tramo
     largo de scroll y cada cuadro va apareciendo de a uno, en
@@ -33,19 +33,17 @@ secciones, en este orden:
     despega y sigue la página. En mobile es el mismo efecto: como
     las 6 tarjetas no entran juntas en una pantalla, la columna se
     desliza dentro del panel fijo y cada tarjeta aparece centrada
-    cuando le toca. "Tecnologías que usamos" sigue siendo una
-    cinta continua (igual en técnica al marquee de palabras clave
-    del hero): se desliza sola hacia la derecha, sin flechas ni
-    puntos, con el bucle perfecto porque hay dos copias idénticas
-    del bloque una detrás de la otra y la animación recorre
-    exactamente el ancho de una copia antes de reiniciarse. Se
-    pausa al pasar el mouse por encima o al enfocar con el teclado,
-    y no se anima si el sistema tiene activado "reducir
-    movimiento".
+    cuando le toca.
+  - Cinta de tecnologías (en las tres páginas): franja fija arriba
+    de todo, encima del navbar, que se desliza sola hacia la
+    derecha con HTML, CSS, JavaScript, React, Node.js, etc. Bucle
+    perfecto con dos copias idénticas (la animación recorre una
+    copia y reinicia). Se pausa con el mouse o el foco y no se
+    anima con "reducir movimiento".
   - Proyectos: 3 casos reales de clientes (RENOVA Constructora,
     Solar Guaraní, JAKAY'U), cada tarjeta enlaza al sitio real del
     cliente. Van en una cinta infinita automática (misma técnica
-    que "Tecnologías que usamos"), que se pausa con el mouse o el
+    que la cinta de tecnologías), que se pausa con el mouse o el
     foco y queda como rejilla quieta con "reducir movimiento".
   - Precios: 3 planes (Básico, Standard recomendado, Business)
     con setup único + cuota mensual en guaraníes: Básico Gs.
@@ -177,6 +175,7 @@ recomienda `python3 -m http.server 8000`).
   39. (2026-09-21) Página propia del plan Standard (standard.html)
   40. (2026-09-21) Vuelve el setup: Básico 350.000, Standard 700.000
   41. (2026-09-21) Proyectos como carrusel infinito automático
+  42. (2026-09-21) Cinta de tecnologías fija arriba del navbar
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -242,6 +241,32 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] "Tecnologías que usamos" pasa arriba del navbar
+    - Pedido: la cinta de tecnologías arriba de todo, en el navbar,
+      fija al hacer scroll, y fuera de Servicios.
+    - Nueva franja .tech-strip dentro del header (sticky en top 0)
+      de index.html, planes.html y standard.html, de borde a borde,
+      con el navbar 10px debajo. Se quitó el bloque de Servicios
+      (y la clase .stack-label, que ya no se usa).
+    - Cada copia de la cinta repite la lista 4 veces (3385px, las
+      repeticiones con aria-hidden): con una sola vuelta (~1100px)
+      en pantallas anchas se veía un hueco antes del reinicio.
+      145 s por vuelta, para que vaya a la misma velocidad calma.
+    - El fondo va en .tech-strip y no en la cinta: la máscara que
+      difumina los bordes de la cinta también transparentaba su
+      fondo y se veía el contenido pasando por detrás. Fondo
+      var(--card-bg), opaco como el navbar en mobile.
+    - Header más alto (108px): --hdr ahora lo mide common.js en
+      las tres páginas (antes solo main.js, así que planes y
+      standard usaban el valor por defecto). Los saltos del menú
+      dejan el título debajo del header con scroll-margin-top
+      calc(--hdr - 50px) en todos los tamaños (antes 24px solo en
+      mobile), y el escenario de Servicios se pega 14px debajo.
+    - Revisado a 390, 1440 y 2560px: sin scroll horizontal, sin
+      hueco en la cinta y sin errores de JS.
+    - Archivos: index.html, planes.html, standard.html,
+      css/styles.css, js/common.js, js/main.js, DOCUMENTACION.txt
 
   [2026-09-21] Proyectos como carrusel infinito automático
     - Pedido: que Proyectos sea un carrusel infinito automático.
