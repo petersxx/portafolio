@@ -46,10 +46,10 @@ secciones, en este orden:
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
   - Precios: 3 planes (Básico, Standard recomendado, Business)
-    como suscripción mensual en guaraníes (sin setup: Básico
-    Gs. 180.000, Standard Gs. 280.000, Business a medida),
-    descripción y lista de
-    lo incluido. Cada botón baja a Contacto con el mensaje
+    como suscripción mensual en guaraníes, sin setup: Básico
+    Gs. 149.000 (solo landing page, dominio incluido), Standard
+    Gs. 249.000 y Business a medida. Cada uno con descripción y
+    lista de lo incluido. Cada botón baja a Contacto con el mensaje
     "Hola, me interesa el plan X." ya escrito.
   - Contacto: formulario (nombre, email, mensaje) que NO envía
     email — arma un mensaje y abre WhatsApp Web/App con el texto
@@ -148,6 +148,9 @@ recomienda `python3 -m http.server 8000`).
   31. (2026-09-21) Nueva sección "Precios" con 3 planes
   32. (2026-09-21) Precios sin setup (solo cuota mensual)
   33. (2026-09-21) Standard a Gs. 280.000/mes; precios confirmados
+  34. (2026-09-21) Básico: solo landing page con dominio, Gs. 120.000/mes
+  35. (2026-09-21) Precios: Básico Gs. 149.000, Standard Gs. 249.000
+  36. (2026-09-21) Descripción del Básico restaurada
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -210,6 +213,30 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Descripción del Básico como al principio
+    - Pedido: volver a las descripciones iniciales. La del Básico
+      vuelve a "Todo lo necesario para tener presencia online
+      profesional desde el primer día."; la del Standard no se
+      había cambiado. La lista del Básico sigue indicando "Landing
+      page (sitio de una sola página)" y "Dominio incluido".
+    - Archivos: index.html, DOCUMENTACION.txt
+
+  [2026-09-21] Nuevos precios: Básico 149.000 y Standard 249.000
+    - Pedido: Básico pasa de 120.000 a Gs. 149.000/mes y Standard
+      de 280.000 a Gs. 249.000/mes. Business sigue "A medida".
+    - Archivos: index.html, DOCUMENTACION.txt
+
+  [2026-09-21] Básico: solo landing page, Gs. 120.000/mes
+    - Pedido: aclarar que el plan Básico incluye solo landing
+      pages, bajarlo de 180.000 a Gs. 120.000/mes y que incluya el
+      dominio.
+    - Descripción nueva ("Una landing page profesional para
+      presentar tu negocio, con el dominio ya incluido.") y en la
+      lista "Sitio multipágina" y "Secciones y contenido a medida"
+      pasaron a "Landing page (sitio de una sola página)" y
+      "Dominio incluido".
+    - Archivos: index.html, DOCUMENTACION.txt
 
   [2026-09-21] Standard a Gs. 280.000/mes
     - Pedido: el modelo es solo de suscripción. Básico queda en
