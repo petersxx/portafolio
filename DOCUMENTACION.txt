@@ -180,6 +180,8 @@ recomienda `python3 -m http.server 8000`).
   43. (2026-09-21) JAKAY'U como ejemplo real del plan Standard
   44. (2026-09-21) El ejemplo del Standard pasa a ser RENOVA
   45. (2026-09-21) El ejemplo del Standard vuelve a ser JAKAY'U
+  46. (2026-09-21) El CD del inicio ya no se recorta en celulares
+  47. (2026-09-21) Menú hamburguesa hasta 980px
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -245,6 +247,41 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Menú hamburguesa hasta 980px
+    - Problema: entre 721 y ~860px el navbar se desbordaba (el
+      botón de tema quedaba afuera, hasta 134px en 721px) y hasta
+      ~1000px el logo se partía en dos líneas.
+    - El menú hamburguesa (y el fondo más opaco del navbar) ahora
+      aplica hasta 980px en vez de 720px. El resto de los ajustes
+      de celular siguen en 720px.
+    - Medido de 721 a 1100px: el navbar entra entero y el logo en
+      una línea. Abierto, el menú mide 294px con los 6 links.
+    - Archivos: css/styles.css, DOCUMENTACION.txt
+
+  [2026-09-21] El CD del inicio no aparecía en celulares
+    - Reporte: desde otro navegador (Chrome/otro en Android o PC)
+      el lugar del CD quedaba vacío.
+    - Causa: con el inicio apilado (hasta 860px) el CD tenía un
+      tamaño fijo y quedaba debajo del texto; en pantallas bajas
+      caía más allá del borde y la pantalla fija del hero
+      (overflow: hidden) lo recortaba. Ya pasaba antes (en 360×560
+      se veían 47px de 128), pero la cinta de tecnologías sumó 46px
+      al header y lo empeoró (en 360×560 no se veía nada; en
+      390×664, 95px de 152).
+    - Arreglo: apilado, el hero pasa a ser una columna texto + CD
+      en la que el CD ocupa el alto que queda libre (hasta 300px),
+      así nunca se sale de la pantalla. Solo con escenario y con
+      aspect-ratio (lo que mantiene la caja cuadrada).
+    - En celular (hasta 720px) el inicio es más compacto para que
+      el CD no quede chico: cinta más baja (header de 108 a 97px),
+      menos aire arriba y bajada más chica.
+    - Medido: 360×640 → 129px completos, 390×664 → 143px,
+      412×740 → 225px, 800×600 → 137px (antes todos recortados).
+      En 360×560 entra pero chico (59px). Escritorio sin cambios.
+    - Visto al probar: entre ~721 y ~900px de ancho el navbar no
+      entraba (arreglado en la entrada siguiente).
+    - Archivos: css/styles.css, DOCUMENTACION.txt
 
   [2026-09-21] El ejemplo del Standard vuelve a ser JAKAY'U
     - Pedido: volver al ejemplo de jakay-u.com.

@@ -1082,11 +1082,9 @@ a { color: inherit; text-decoration: none; }
   .veil { background: var(--veil-strong); }
 }
 
-@media (max-width: 720px) {
-  .site-header { padding-left: 12px; padding-right: 12px; }
-  .tech-strip { margin-left: -12px; margin-right: -12px; }
-  .nav { padding-left: 18px; padding-right: 18px; }
-  .logo { font-size: 0.95rem; line-height: 1.05; }
+/* Menú hamburguesa hasta 980px: más angosto, el logo se parte en dos líneas y los
+   links no entran (entre ~721 y ~860px el botón de tema quedaba afuera del navbar). */
+@media (max-width: 980px) {
   .nav-toggle { display: flex; }
   .nav-links {
     position: absolute;
@@ -1127,6 +1125,15 @@ a { color: inherit; text-decoration: none; }
   .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  /* Más opaco que el vidrio general: el texto que pasa por detrás no se lee a través. */
+  .nav { background: var(--card-bg); }
+}
+
+@media (max-width: 720px) {
+  .site-header { padding-left: 12px; padding-right: 12px; }
+  .tech-strip { margin-left: -12px; margin-right: -12px; }
+  .nav { padding-left: 18px; padding-right: 18px; }
+  .logo { font-size: 0.95rem; line-height: 1.05; }
   .section { padding-top: 70px; padding-bottom: 70px; }
   /* Servicios en mobile: tarjetas estáticas, sin escenario de scroll ni aparición. */
   .services-stage { height: auto; }
@@ -1146,8 +1153,6 @@ a { color: inherit; text-decoration: none; }
   /* Atado al ancho (vw) y no a rem: si el celular tiene la letra agrandada, la palabra
      más larga ("Construimos") igual entra en la pantalla. */
   .hero h1 { font-size: min(8.6vw, 2.3rem); }
-  /* Más opaco que el vidrio general: el texto que pasa por detrás no se lee a través. */
-  .nav { background: var(--card-bg); }
   .contact-form { padding: 22px; }
   .plan-card { padding: 24px; }
   /* Apiladas no hay nada que alinear: sin el hueco de la etiqueta. */
@@ -1159,4 +1164,28 @@ a { color: inherit; text-decoration: none; }
   .panel-demo-list li { gap: 8px; padding: 12px 8px; }
   .panel-demo-price { text-align: right; }
   .panel-demo-price s { display: block; }
+}
+
+/* Inicio apilado (hasta 860px): el CD ocupa el alto que deja libre el texto (hasta
+   300px) en vez de un tamaño fijo. Con un tamaño fijo, en pantallas bajas el CD caía
+   debajo del borde y la pantalla fija del hero lo recortaba: se veía un espacio vacío.
+   Solo con escenario (sin "reducir movimiento") y con aspect-ratio, que es lo que
+   mantiene la caja cuadrada al fijarle el alto. */
+@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+  @supports (aspect-ratio: 1) {
+    .hero-sticky { align-items: stretch; padding-bottom: 20px; }
+    .hero { height: 100%; grid-template-rows: auto minmax(0, 1fr); }
+    .hero-visual { height: min(100%, 300px); width: auto; max-width: 100%; align-self: center; }
+  }
+}
+
+/* Celular: el inicio más compacto (cinta más baja, menos aire y bajada más chica)
+   para que al CD le quede lugar debajo del texto. */
+@media (max-width: 720px) {
+  .tech-strip { margin-bottom: 6px; }
+  .carousel.tech-ticker { padding-top: 4px; padding-bottom: 4px; }
+  .tech-ticker .tags span { font-size: 0.62rem; padding: 1px 8px; }
+  .hero-sticky { padding-top: calc(var(--hdr, 90px) + 12px); }
+  .eyebrow { margin-bottom: 10px; }
+  .hero-sub { font-size: 0.95rem; line-height: 1.5; margin-bottom: 18px; }
 }
