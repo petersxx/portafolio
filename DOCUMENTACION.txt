@@ -46,7 +46,9 @@ secciones, en este orden:
     Constructora, Solar Guaraní, JAKAY'U), cada una enlaza al sitio
     real del cliente.
   - Precios: 3 planes (Básico, Standard recomendado, Business)
-    con setup + cuota mensual en guaraníes, descripción y lista de
+    como suscripción mensual en guaraníes (sin setup: Básico
+    Gs. 180.000, Standard Gs. 280.000, Business a medida),
+    descripción y lista de
     lo incluido. Cada botón baja a Contacto con el mensaje
     "Hola, me interesa el plan X." ya escrito.
   - Contacto: formulario (nombre, email, mensaje) que NO envía
@@ -144,6 +146,8 @@ recomienda `python3 -m http.server 8000`).
       con GPU débil (contenido visible sin JS, respaldos CSS/PNG)
   30. (2026-09-21) Se eliminaron las estadísticas de "Nosotros"
   31. (2026-09-21) Nueva sección "Precios" con 3 planes
+  32. (2026-09-21) Precios sin setup (solo cuota mensual)
+  33. (2026-09-21) Standard a Gs. 280.000/mes; precios confirmados
 
 Estado actual: sitio funcional y desplegable, con identidad de
 marca definida (Main Technologies), 3 proyectos reales cargados,
@@ -158,10 +162,6 @@ la pena resolver o decidir:
 
   - Sección "Proyectos" tiene solo 3 casos; si hay más trabajos de
     clientes, faltaría cargarlos.
-  - Precios: los montos (Básico Gs. 550.000 + 180.000/mes,
-    Standard Gs. 850.000 + 250.000/mes) se tomaron de la página de
-    referencia que pasó el usuario (indexte.com). Confirmar que
-    sean los precios propios antes de publicar.
   - No hay favicon como archivo real: se usa un SVG inline como
     data URI. Podría convenir un favicon.ico/png tradicional para
     mejor compatibilidad.
@@ -210,6 +210,22 @@ la pena resolver o decidir:
 ----------------------------------------------------------------
 Cada cambio al proyecto se anota acá (el más reciente arriba),
 con fecha, qué se hizo y qué archivos se tocaron.
+
+  [2026-09-21] Standard a Gs. 280.000/mes
+    - Pedido: el modelo es solo de suscripción. Básico queda en
+      Gs. 180.000/mes (confirmado) y Standard sube de 250.000 a
+      Gs. 280.000/mes.
+    - Con esto los precios quedan confirmados por el usuario: se
+      quitó el pendiente de "confirmar los montos".
+    - Archivos: index.html, DOCUMENTACION.txt
+
+  [2026-09-21] Precios sin setup
+    - Pedido: sacar el pago de setup de los planes.
+    - Cada tarjeta muestra solo la cuota mensual. La bajada de la
+      sección pasó a "Una cuota mensual fija. Todo incluido, sin
+      sorpresas." Se borró el separador entre filas del recuadro de
+      precio, que ya no se usa.
+    - Archivos: index.html, css/styles.css, DOCUMENTACION.txt
 
   [2026-09-21] Nueva sección "Precios"
     - Pedido: agregar un apartado de precios parecido al de
